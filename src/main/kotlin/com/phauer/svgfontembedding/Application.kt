@@ -4,7 +4,7 @@ import io.quarkus.runtime.QuarkusApplication
 import io.quarkus.runtime.annotations.QuarkusMain
 
 @QuarkusMain
-class SvgFontEmbeddingApplication(
+class Application(
     private val embedder: SvgFontEmbedder
 ) : QuarkusApplication {
     override fun run(vararg args: String) = when (val result = embedder.embedFont(*args)) {

@@ -1,8 +1,16 @@
-# code-with-quarkus project
+# SVG-Font-Embedding
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+TODO
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+# Features
+
+- Automatically detect used fonts and download them from Google Fonts.
+- Embedding always works as we rely on a properly parsed DOM instead of string replacement in the SVG. So it doesn't matter how the `<def>` tag looks like. This is also ensured with several tests.
+- It's free.
+- We embedd WOFF instead of TTF. WOFF files are compressed and therefore much smaller. Consequently, the resulting SVG is also smaller.
+- No installation or certain environment required. Just download the native executable and run it.
+
+# Development
 
 ## Running the application in dev mode
 
