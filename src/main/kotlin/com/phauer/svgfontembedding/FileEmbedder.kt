@@ -32,7 +32,7 @@ class FileEmbedder {
     }
 
     private fun createStyleTagWithFont(fonts: Collection<GoogleFontsEntry>): Element {
-        val css = fonts.joinToString {
+        val css = fonts.joinToString(separator = "") {
             """
             @font-face {
                 font-family:'${it.font}';
