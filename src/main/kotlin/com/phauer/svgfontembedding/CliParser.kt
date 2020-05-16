@@ -14,22 +14,29 @@ class CliParser {
     private val options = Options().apply {
         addOption(
             Option.builder()
-                .longOpt("input")
+                .longOpt(Args.input)
                 .desc("The input SVG where the font should be embedded")
                 .hasArg()
                 .required()
+                .build()
+        )
+        addOption(
+            Option.builder()
+                .longOpt(Args.output)
+                .desc("The file path of the output SVG")
+                .hasArg()
                 .build()
         )
     }
 
     @Throws(ParseException::class, CliParserException::class)
     fun parseArguments(args: Array<out String>): Arguments {
-        // TODO handle ParseException and use exception.getMessage() to print help
         val commandLine = DefaultParser().parse(options, args)
 
-        val inputFile = commandLine.getOptionValue("input")
+        val inputFile = commandLine.getOptionValue(Args.input)
         return Arguments(
-            inputFile = validateAndGetExistingFile(inputFile)
+            inputFile = validateAndGetExistingFile(inputFile),
+            outputFile = if (commandLine.hasOption(Args.output)) commandLine.getOptionValue(Args.output) else null
         )
     }
 
@@ -50,5 +57,11 @@ class CliParser {
 class CliParserException(msg: String) : RuntimeException(msg)
 
 data class Arguments(
-    val inputFile: Path
+    val inputFile: Path,
+    val outputFile: String?
 )
+
+private object Args {
+    const val input = "input"
+    const val output = "output"
+}

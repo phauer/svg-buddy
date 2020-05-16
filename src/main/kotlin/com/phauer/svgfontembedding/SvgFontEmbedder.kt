@@ -22,25 +22,35 @@ class SvgFontEmbedder(
         println("Detecting Fonts...")
         val detectedFonts = svgFontDetector.detectUsedFontsInSvg(inputSvgString)
 
-        println("Downloading Fonts...")
+        println("Downloading Fonts $detectedFonts...")
         val googleFonts = googleFontsClient.downloadFonts(detectedFonts)
 
-        val filteredGoogleFonts = googleFonts.mapValues { entry ->
-            entry.value.first { it.fileName.contains("regular", ignoreCase = true) }
-        }.values
+        val filteredGoogleFonts = selectRegularFontFile(googleFonts)
 
-        println("Embedding Fonts into SVG...")
+        println("Embedding Google Fonts ${filteredGoogleFonts.map(GoogleFontsEntry::fileName)} into SVG...")
         val outputSvgString = fileEmbedder.embedFontsIntoSvg(inputSvgString, filteredGoogleFonts)
 
-        val newFileName = arguments.inputFile.toString().replaceFirst(".svg", "-embed.svg")
+        val newFileName = arguments.outputFile ?: arguments.inputFile.toString().replaceFirst(".svg", "-e.svg")
         println("Write new SVG to $newFileName...")
-        Files.writeString(Paths.get(newFileName), outputSvgString)
+        writeSvgToFile(newFileName, outputSvgString)
 
         println("Done.")
-        EmbeddingResult.Success(detectedFonts = detectedFonts)
+        EmbeddingResult.Success(detectedFonts = detectedFonts, outputFile = newFileName)
     } catch (ex: Exception) {
         log.error("Embedding Failed", ex)
         EmbeddingResult.Failure(message = ex.message!!, exception = ex)
+    }
+
+    private fun writeSvgToFile(newFileName: String, outputSvgString: String) {
+        val newFilePath = Paths.get(newFileName)
+        Files.createDirectories(newFilePath.parent)
+        Files.writeString(newFilePath, outputSvgString)
+    }
+
+    private fun selectRegularFontFile(googleFonts: Map<String, List<GoogleFontsEntry>>): Collection<GoogleFontsEntry> {
+        return googleFonts.mapValues { entry ->
+            entry.value.first { it.fileName.contains("regular", ignoreCase = true) }
+        }.values
     }
 
     fun printHelp() {
@@ -49,6 +59,6 @@ class SvgFontEmbedder(
 }
 
 sealed class EmbeddingResult {
-    data class Success(val detectedFonts: Set<String>) : EmbeddingResult()
+    data class Success(val detectedFonts: Set<String>, val outputFile: String) : EmbeddingResult()
     data class Failure(val message: String, val exception: Exception) : EmbeddingResult()
 }
