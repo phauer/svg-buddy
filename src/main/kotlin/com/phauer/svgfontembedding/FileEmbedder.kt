@@ -11,7 +11,7 @@ import javax.enterprise.context.ApplicationScoped
 
 
 @ApplicationScoped
-class Embedder {
+class FileEmbedder {
     private val svgNamespace = Namespace.getNamespace("", "http://www.w3.org/2000/svg")
 
     // TODO write dedicated test for <defs/></defs>, <defs/>, <defs
@@ -32,10 +32,13 @@ class Embedder {
     }
 
     private fun createStyleTagWithFont(fonts: Collection<GoogleFontsEntry>): Element {
-        val css = fonts.joinToString {"""
+        val css = fonts.joinToString {
+            """
             @font-face {
-                font-family: '${it.font}';
-                src: url('data:application/x-font-ttf;base64,${Base64.encodeBase64String(it.bytes)}');
+                font-family:'${it.font}';
+                src:url('data:application/font-woff2;charset=utf-8;base64,${Base64.encodeBase64String(it.bytes)}') format("woff2");
+                font-weight:normal;
+                font-style:normal;
             }
         """.trimIndent()
         }

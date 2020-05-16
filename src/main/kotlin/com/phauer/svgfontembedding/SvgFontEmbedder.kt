@@ -1,12 +1,9 @@
 package com.phauer.svgfontembedding
 
-import org.eclipse.microprofile.rest.client.inject.RestClient
-import java.io.ByteArrayInputStream
+import org.jboss.logging.Logger
 import java.nio.charset.StandardCharsets
-import java.nio.file.FileSystems
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.zip.ZipInputStream
 import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
@@ -14,8 +11,10 @@ class SvgFontEmbedder(
     private val cliParser: CliParser,
     private val svgFontDetector: SvgFontDetector,
     private val googleFontsClient: GoogleFontsClient,
-    private val embedder: Embedder
+    private val fileEmbedder: FileEmbedder
 ) {
+    private val log: Logger = Logger.getLogger(this::class.java)
+
     fun embedFont(vararg args: String): EmbeddingResult = try {
         val arguments = cliParser.parseArguments(args)
         val inputSvgString = Files.readString(arguments.inputFile, StandardCharsets.UTF_8)
@@ -31,7 +30,7 @@ class SvgFontEmbedder(
         }.values
 
         println("Embedding Fonts into SVG...")
-        val outputSvgString = embedder.embedFontsIntoSvg(inputSvgString, filteredGoogleFonts)
+        val outputSvgString = fileEmbedder.embedFontsIntoSvg(inputSvgString, filteredGoogleFonts)
 
         val newFileName = arguments.inputFile.toString().replaceFirst(".svg", "-embed.svg")
         println("Write new SVG to $newFileName...")
@@ -40,7 +39,8 @@ class SvgFontEmbedder(
         println("Done.")
         EmbeddingResult.Success(detectedFonts = detectedFonts)
     } catch (ex: Exception) {
-        EmbeddingResult.Failure(message = ex.message!!)
+        log.error("Embedding Failed", ex)
+        EmbeddingResult.Failure(message = ex.message!!, exception = ex)
     }
 
     fun printHelp() {
@@ -50,5 +50,5 @@ class SvgFontEmbedder(
 
 sealed class EmbeddingResult {
     data class Success(val detectedFonts: Set<String>) : EmbeddingResult()
-    data class Failure(val message: String) : EmbeddingResult()
+    data class Failure(val message: String, val exception: Exception) : EmbeddingResult()
 }
