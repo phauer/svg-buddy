@@ -23,6 +23,14 @@ class GoogleFontsMockServer : QuarkusTestResourceLifecycleManager {
     override fun stop() {
         server?.shutdown()
     }
+
+    override fun inject(testInstance: Any) {
+        testInstance.javaClass.declaredFields.forEach { field ->
+            if (field.type == MockWebServer::class.java) {
+                field.set(testInstance, server)
+            }
+        }
+    }
 }
 
 object GoogleFontsHelperDispatcher : Dispatcher() {

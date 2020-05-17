@@ -4,9 +4,14 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.junit.QuarkusTest
+import okhttp3.mockwebserver.MockWebServer
+import org.apache.commons.io.FileUtils
 import org.assertj.core.api.Assertions.assertThat
+import org.eclipse.microprofile.config.inject.ConfigProperty
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 import javax.inject.Inject
@@ -17,6 +22,11 @@ class SvgFontFileEmbedderTest {
     @Inject
     lateinit var embedder: SvgFontEmbedder
 
+    @Inject
+    @ConfigProperty(name = "fontDownloadDirectory")
+    lateinit var fontDownloadDirectory: String
+    lateinit var mockServer: MockWebServer
+
     private val resourcesFolder = "src/test/resources/svg"
     private val outputFolder = "target/test-classes/output".apply {
         Files.createDirectories(Paths.get(this))
@@ -26,6 +36,13 @@ class SvgFontFileEmbedderTest {
     /**
      * the font pacifico good for testing as I'm not having pacifico installed on my system and it's a font that you can easily distinguish when opening the SVG in the browser.
      */
+
+    @BeforeEach
+    fun init() {
+        val fontDownloadDir = File(fontDownloadDirectory)
+        FileUtils.deleteDirectory(fontDownloadDir)
+        FileUtils.forceMkdir(fontDownloadDir)
+    }
 
     @Test
     @EnabledIfEnvironmentVariable(named = "adhoc", matches = "true")
@@ -73,6 +90,19 @@ class SvgFontFileEmbedderTest {
         embedder.embedFont("--input", "foooo.svg").shouldBeTypeOf<EmbeddingResult.Failure> { failure ->
             failure.message shouldBe "File foooo.svg not found."
         }
+    }
+
+    @Test
+    fun `fonts get cached locally and not downloaded on the second run`() {
+        // little tricky because Quarkus doesn't recreate the mock server in the current setup.
+        val requestCountBefore = mockServer.requestCount
+        repeat(2) {
+            embedder.embedFont(
+                "--input", "$resourcesFolder/inkscape/pacifico/input.svg",
+                "--output", "$outputFolder/inkscape/pacifico.svg"
+            )
+        }
+        mockServer.requestCount shouldBe requestCountBefore + 1
     }
 
     private fun processAndAssertOutputFileContent(testCaseName: String, expectedDetectedFonts: Set<String>) {

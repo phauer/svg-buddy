@@ -1,7 +1,12 @@
 # TODOs
 
-- use cached fonts to avoid loading them again and again
+## Prio 1
+
 - apply simple svg optimizations (e.g. remove metadata, don't pretty print)
+
+## Prio 2
+
+- Try [XmlBeam](https://xmlbeam.org/) instead of jdom2
 - dedicated tests for. e.g. for:
     - different fonts
     - multiple fonts
