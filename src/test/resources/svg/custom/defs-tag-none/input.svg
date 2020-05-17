@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="100" width="100">
+    <text x="0" y="15" fill="red" style="font-family: Pacifico;">Text text text</text>
+    <circle cx="50" cy="50" r="30" stroke="black" stroke-width="3" fill="red" />
+</svg>

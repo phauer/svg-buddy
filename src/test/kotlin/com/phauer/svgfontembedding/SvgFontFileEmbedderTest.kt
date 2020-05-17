@@ -5,6 +5,7 @@ import io.kotest.matchers.types.shouldBeTypeOf
 import io.quarkus.test.junit.QuarkusTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import java.nio.file.Files
 import java.nio.file.Paths
 import javax.inject.Inject
@@ -22,15 +23,32 @@ class SvgFontFileEmbedderTest {
 
     // TODO test against mock server
     // TODO test multiple fonts
-    // TODO test no fonts
     // TODO test systematically fonts: Roboto, Gochi Hand (space), Pacifico
-    // TODO test defs tag variations systematically
 
     // ParameterizedTest are not supported in Quarkus yet: https://github.com/quarkusio/quarkus/pull/9340
-
     /**
-     * good for ad-hoc testing as I'm not having pacifico installed on my system and it's a font that you can easily distinguish when opening the SVG in the browser.
+     * the font pacifico good for testing as I'm not having pacifico installed on my system and it's a font that you can easily distinguish when opening the SVG in the browser.
      */
+
+    @Test
+    @EnabledIfEnvironmentVariable(named = "adhoc", matches = "true")
+    fun `ad-hoc test to execute the embedding for a specific file`() {
+        val name = "no-text"
+        embedder.embedFont(
+            "--input", "$resourcesFolder/custom/$name/input.svg",
+            "--output", "$outputFolder/$name.svg"
+        )
+    }
+
+    @Test
+    fun `no text at all - don't change anything`() = processAndAssertOutputFileContent(testCaseName = "custom/no-text", expectedDetectedFonts = setOf())
+
+    @Test
+    fun `defs tag - empty tag`() = processAndAssertOutputFileContent(testCaseName = "custom/defs-tag-empty", expectedDetectedFonts = setOf("Pacifico"))
+
+    @Test
+    fun `defs tag - no tag at all`() = processAndAssertOutputFileContent(testCaseName = "custom/defs-tag-none", expectedDetectedFonts = setOf("Pacifico"))
+
     @Test
     fun pacifico() = processAndAssertOutputFileContent(testCaseName = "inkscape/pacifico", expectedDetectedFonts = setOf("Pacifico"))
 

@@ -17,25 +17,27 @@ class SvgFontEmbedder(
 
     fun embedFont(vararg args: String): EmbeddingResult = try {
         val arguments = cliParser.parseArguments(args)
+        val newFileName = arguments.outputFile ?: arguments.inputFile.toString().replaceFirst(".svg", "-e.svg")
         val inputSvgString = Files.readString(arguments.inputFile, StandardCharsets.UTF_8)
 
         println("Detecting Fonts...")
         val detectedFonts = svgFontDetector.detectUsedFontsInSvg(inputSvgString)
-
-        println("Downloading Fonts $detectedFonts...")
-        val googleFonts = googleFontsClient.downloadFonts(detectedFonts)
-
-        val filteredGoogleFonts = selectRegularFontFile(googleFonts)
-
-        println("Embedding Google Fonts ${filteredGoogleFonts.map(GoogleFontsEntry::fileName)} into SVG...")
-        val outputSvgString = fileEmbedder.embedFontsIntoSvg(inputSvgString, filteredGoogleFonts)
-
-        val newFileName = arguments.outputFile ?: arguments.inputFile.toString().replaceFirst(".svg", "-e.svg")
-        println("Write new SVG to $newFileName...")
-        writeSvgToFile(newFileName, outputSvgString)
-
-        println("Done.")
-        EmbeddingResult.Success(detectedFonts = detectedFonts, outputFile = newFileName)
+        if (detectedFonts.isEmpty()) {
+            println("No fonts detected. Just copying the input SVG to $newFileName...")
+            writeSvgToFile(newFileName, inputSvgString)
+            println("Done.")
+            EmbeddingResult.Success(detectedFonts = detectedFonts, outputFile = newFileName)
+        } else {
+            println("Downloading Fonts $detectedFonts...")
+            val googleFonts = googleFontsClient.downloadFonts(detectedFonts)
+            val filteredGoogleFonts = selectRegularFontFile(googleFonts)
+            println("Embedding Google Fonts ${filteredGoogleFonts.map(GoogleFontsEntry::fileName)} into SVG...")
+            val outputSvgString = fileEmbedder.embedFontsIntoSvg(inputSvgString, filteredGoogleFonts)
+            println("Write new SVG to $newFileName...")
+            writeSvgToFile(newFileName, outputSvgString)
+            println("Done.")
+            EmbeddingResult.Success(detectedFonts = detectedFonts, outputFile = newFileName)
+        }
     } catch (ex: Exception) {
         log.error("Embedding Failed", ex)
         EmbeddingResult.Failure(message = ex.message!!, exception = ex)

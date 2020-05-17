@@ -14,11 +14,8 @@ import javax.enterprise.context.ApplicationScoped
 class FileEmbedder {
     private val svgNamespace = Namespace.getNamespace("", "http://www.w3.org/2000/svg")
 
-    // TODO write dedicated test for <defs/></defs>, <defs/>, <defs
-    // TODO test multiple fonts
     fun embedFontsIntoSvg(inputSvgString: String, fonts: Collection<GoogleFontsEntry>): String {
         // try to hit the def tag with children, empty tags and empty tags with attributes, empty tas having attributes in new lines. or even when there is no def tag at all.
-        // TODO test no defs tag at all
         val doc = SAXBuilder().build(inputSvgString.byteInputStream())
         val defsTag: Element? = doc.rootElement.getChild("defs", svgNamespace)
         if (defsTag != null) {
@@ -26,7 +23,7 @@ class FileEmbedder {
         } else {
             val newDefsTag = Element("defs", svgNamespace)
             newDefsTag.addContent(createStyleTagWithFont(fonts))
-            doc.rootElement.addContent(newDefsTag) // TODO is inserted before?
+            doc.rootElement.addContent(0, newDefsTag)
         }
         return XMLOutputter(Format.getPrettyFormat()).outputString(doc)
     }
