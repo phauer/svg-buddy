@@ -1,4 +1,4 @@
-package com.phauer.svgfontembedding
+package com.phauer.svgfontembedding.processing
 
 import net.lingala.zip4j.ZipFile
 import org.eclipse.microprofile.config.inject.ConfigProperty
@@ -36,7 +36,13 @@ class GoogleFontsClient(
             val zipFile = ZipFile(fontZip.toFile())
             zipFile.fileHeaders
                 .filter { it.fileName.endsWith(".woff2") }
-                .map { GoogleFontsEntry(font = detectedFont, fileName = it.fileName, bytes = zipFile.getInputStream(it).readAllBytes()) }
+                .map {
+                    GoogleFontsEntry(
+                        font = detectedFont,
+                        fileName = it.fileName,
+                        bytes = zipFile.getInputStream(it).readAllBytes()
+                    )
+                }
         }
     }
 
@@ -50,7 +56,7 @@ class GoogleFontsClient(
     }
 }
 
-
+@ApplicationScoped
 @RegisterRestClient
 interface GoogleFontsService {
     // UI https://google-webfonts-helper.herokuapp.com/fonts/pacifico?subsets=latin

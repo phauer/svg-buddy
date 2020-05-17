@@ -1,5 +1,10 @@
 package com.phauer.svgfontembedding
 
+import com.phauer.svgfontembedding.processing.CliParser
+import com.phauer.svgfontembedding.processing.FileEmbedder
+import com.phauer.svgfontembedding.processing.GoogleFontsClient
+import com.phauer.svgfontembedding.processing.GoogleFontsEntry
+import com.phauer.svgfontembedding.processing.SvgFontDetector
 import org.jboss.logging.Logger
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files

@@ -1,4 +1,4 @@
-package com.phauer.svgfontembedding
+package com.phauer.svgfontembedding.processing
 
 import org.apache.commons.codec.binary.Base64
 import org.jdom2.CDATA
@@ -15,15 +15,14 @@ class FileEmbedder {
     private val svgNamespace = Namespace.getNamespace("", "http://www.w3.org/2000/svg")
 
     fun embedFontsIntoSvg(inputSvgString: String, fonts: Collection<GoogleFontsEntry>): String {
-        // try to hit the def tag with children, empty tags and empty tags with attributes, empty tas having attributes in new lines. or even when there is no def tag at all.
-        val doc = SAXBuilder().build(inputSvgString.byteInputStream())
+        val doc = SAXBuilder(false).build(inputSvgString.byteInputStream())
         val defsTag: Element? = doc.rootElement.getChild("defs", svgNamespace)
-        if (defsTag != null) {
-            defsTag.addContent(createStyleTagWithFont(fonts))
-        } else {
+        if (defsTag == null) {
             val newDefsTag = Element("defs", svgNamespace)
             newDefsTag.addContent(createStyleTagWithFont(fonts))
             doc.rootElement.addContent(0, newDefsTag)
+        } else {
+            defsTag.addContent(createStyleTagWithFont(fonts))
         }
         return XMLOutputter(Format.getPrettyFormat()).outputString(doc)
     }
@@ -44,6 +43,4 @@ class FileEmbedder {
         styleTag.addContent(CDATA(css))
         return styleTag
     }
-
-
 }

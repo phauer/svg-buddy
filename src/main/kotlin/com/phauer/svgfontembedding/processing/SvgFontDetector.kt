@@ -1,4 +1,4 @@
-package com.phauer.svgfontembedding
+package com.phauer.svgfontembedding.processing
 
 import java.util.regex.Pattern
 import javax.enterprise.context.ApplicationScoped

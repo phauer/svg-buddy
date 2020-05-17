@@ -2,6 +2,7 @@ package com.phauer.svgfontembedding
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
+import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.junit.QuarkusTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -10,8 +11,8 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import javax.inject.Inject
 
-
 @QuarkusTest
+@QuarkusTestResource(GoogleFontsMockServer::class)
 class SvgFontFileEmbedderTest {
     @Inject
     lateinit var embedder: SvgFontEmbedder
@@ -20,10 +21,6 @@ class SvgFontFileEmbedderTest {
     private val outputFolder = "target/test-classes/output".apply {
         Files.createDirectories(Paths.get(this))
     }
-
-    // TODO test against mock server
-    // TODO test multiple fonts
-    // TODO test systematically fonts: Roboto, Gochi Hand (space), Pacifico
 
     // ParameterizedTest are not supported in Quarkus yet: https://github.com/quarkusio/quarkus/pull/9340
     /**

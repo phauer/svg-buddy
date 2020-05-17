@@ -1,4 +1,4 @@
-package com.phauer.svgfontembedding
+package com.phauer.svgfontembedding.processing
 
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
