@@ -47,29 +47,29 @@ class SvgFontFileEmbedderTest {
     fun `defs tag - no tag at all`() = processAndAssertOutputFileContent(testCaseName = "custom/defs-tag-none", expectedDetectedFonts = setOf("Pacifico"))
 
     @Test
-    fun pacifico() = processAndAssertOutputFileContent(testCaseName = "inkscape/pacifico", expectedDetectedFonts = setOf("Pacifico"))
+    fun `inkscape - pacifico`() = processAndAssertOutputFileContent(testCaseName = "inkscape/pacifico", expectedDetectedFonts = setOf("Pacifico"))
 
     @Test
-    fun `text and shapes`() = processAndAssertOutputFileContent(testCaseName = "inkscape/text-shapes", expectedDetectedFonts = setOf("Roboto"))
+    fun `inkscape - text and shapes`() = processAndAssertOutputFileContent(testCaseName = "inkscape/text-shapes", expectedDetectedFonts = setOf("Roboto"))
 
     @Test
-    fun `two fonts`() = processAndAssertOutputFileContent(testCaseName = "inkscape/two-fonts", expectedDetectedFonts = setOf("Roboto", "Gochi Hand"))
+    fun `inkscape - two fonts`() = processAndAssertOutputFileContent(testCaseName = "inkscape/two-fonts", expectedDetectedFonts = setOf("Roboto", "Gochi Hand"))
 
     @Test
-    fun `drawio rect with text embedded xml`() = processAndAssertOutputFileContent(testCaseName = "drawio/rect-with-text-embedded-xml", expectedDetectedFonts = setOf("Pacifico"))
+    fun `drawio - rect with text embedded xml`() = processAndAssertOutputFileContent(testCaseName = "drawio/rect-with-text-embedded-xml", expectedDetectedFonts = setOf("Pacifico"))
 
     @Test
-    fun `drawio rect with text exported svg`() = processAndAssertOutputFileContent(testCaseName = "drawio/rect-with-text-exported-svg", expectedDetectedFonts = setOf("Pacifico"))
+    fun `drawio - rect with text exported svg`() = processAndAssertOutputFileContent(testCaseName = "drawio/rect-with-text-exported-svg", expectedDetectedFonts = setOf("Pacifico"))
 
     @Test
-    fun returnFailureOnMissingInputArg() {
+    fun `errors - return failure on missing input arg`() {
         embedder.embedFont().shouldBeTypeOf<EmbeddingResult.Failure> { failure ->
             failure.message shouldBe "Missing required option: input"
         }
     }
 
     @Test
-    fun returnFailureIfInputFileDoesntExist() {
+    fun `errors - return failure if input file doesnt exist`() {
         embedder.embedFont("--input", "foooo.svg").shouldBeTypeOf<EmbeddingResult.Failure> { failure ->
             failure.message shouldBe "File foooo.svg not found."
         }

@@ -1,10 +1,12 @@
 package com.phauer.svgfontembedding
 
 import com.phauer.svgfontembedding.processing.CliParser
+import com.phauer.svgfontembedding.processing.CliParserException
 import com.phauer.svgfontembedding.processing.FileEmbedder
 import com.phauer.svgfontembedding.processing.GoogleFontsClient
 import com.phauer.svgfontembedding.processing.GoogleFontsEntry
 import com.phauer.svgfontembedding.processing.SvgFontDetector
+import org.apache.commons.cli.ParseException
 import org.jboss.logging.Logger
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
@@ -44,8 +46,13 @@ class SvgFontEmbedder(
             EmbeddingResult.Success(detectedFonts = detectedFonts, outputFile = newFileName)
         }
     } catch (ex: Exception) {
-        log.error("Embedding Failed", ex)
-        EmbeddingResult.Failure(message = ex.message!!, exception = ex)
+        when (ex) {
+            is CliParserException, is ParseException -> EmbeddingResult.Failure(message = ex.message!!)
+            else -> {
+                log.error("Embedding Failed", ex)
+                EmbeddingResult.Failure(message = ex.message!!)
+            }
+        }
     }
 
     private fun writeSvgToFile(newFileName: String, outputSvgString: String) {
@@ -67,5 +74,5 @@ class SvgFontEmbedder(
 
 sealed class EmbeddingResult {
     data class Success(val detectedFonts: Set<String>, val outputFile: String) : EmbeddingResult()
-    data class Failure(val message: String, val exception: Exception) : EmbeddingResult()
+    data class Failure(val message: String) : EmbeddingResult()
 }
