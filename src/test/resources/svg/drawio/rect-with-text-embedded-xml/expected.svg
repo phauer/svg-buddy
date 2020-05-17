@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="121px" height="61px" viewBox="-0.5 -0.5 121 61" content="&lt;mxfile host=&quot;Electron&quot; modified=&quot;2020-05-16T13:52:37.346Z&quot; agent=&quot;5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/13.0.3 Chrome/80.0.3987.163 Electron/8.2.1 Safari/537.36&quot; etag=&quot;piFaC_P-Esfza5vaf_in&quot; version=&quot;13.0.3&quot; type=&quot;device&quot;&gt;&lt;diagram id=&quot;j9c3_7ZDD4r6PbfcrPTs&quot; name=&quot;Page-1&quot;&gt;nZNtT4MwEMc/DS81g7oHXyqOmSwm6jTGl7XcoLFwpNwG89PbyjFGFhNjQkL53UPv7n8EIi7alZVV/oApmCCapG0g7oIoCsNJ5F6eHDqyCKcdyKxO2WkAG/0FDCdMdzqFeuRIiIZ0NYYKyxIUjZi0Fpux2xbN+NZKZnAGNkqac/qmU8q5i2g+8HvQWd7fHM6uO0she2fupM5lis0IQUsJlsQlPuMHEgbTZU7ku7sJosQ9W+9xmSFmBmSl60uFhcOqdi7JVhba+NFy8Dx+lEpvtfpvnmO4K1AsAxFbROpORRuD8er2wnVdJL9Yj5OzUNJfAvBVzd7XX3qxh/UkeXraf7arC86yl2bHirxATTxROvQyWdyVKfhEYSBum1wTbCqpvLVxi+lYToVhs59EctawuE1eDpWPyNz5vPi+ErAE7QniZlaABZA9OBe2iiuWmVdf9LI3wyKFPctPlmjGTPJiZMfUw/TcgQfYfw5C/dhO/kex/AY=&lt;/diagram&gt;&lt;/mxfile&gt;" preserveAspectRatio="xMidYMid meet" zoomAndPan="magnify" contentScriptType="application/ecmascript" contentStyleType="text/css">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="121px" height="61px" viewBox="-0.5 -0.5 121 61" content="&lt;mxfile host=&quot;Electron&quot; modified=&quot;2020-05-16T13:52:37.346Z&quot; agent=&quot;5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/13.0.3 Chrome/80.0.3987.163 Electron/8.2.1 Safari/537.36&quot; etag=&quot;piFaC_P-Esfza5vaf_in&quot; version=&quot;13.0.3&quot; type=&quot;device&quot;&gt;&lt;diagram id=&quot;j9c3_7ZDD4r6PbfcrPTs&quot; name=&quot;Page-1&quot;&gt;nZNtT4MwEMc/DS81g7oHXyqOmSwm6jTGl7XcoLFwpNwG89PbyjFGFhNjQkL53UPv7n8EIi7alZVV/oApmCCapG0g7oIoCsNJ5F6eHDqyCKcdyKxO2WkAG/0FDCdMdzqFeuRIiIZ0NYYKyxIUjZi0Fpux2xbN+NZKZnAGNkqac/qmU8q5i2g+8HvQWd7fHM6uO0she2fupM5lis0IQUsJlsQlPuMHEgbTZU7ku7sJosQ9W+9xmSFmBmSl60uFhcOqdi7JVhba+NFy8Dx+lEpvtfpvnmO4K1AsAxFbROpORRuD8er2wnVdJL9Yj5OzUNJfAvBVzd7XX3qxh/UkeXraf7arC86yl2bHirxATTxROvQyWdyVKfhEYSBum1wTbCqpvLVxi+lYToVhs59EctawuE1eDpWPyNz5vPi+ErAE7QniZlaABZA9OBe2iiuWmVdf9LI3wyKFPctPlmjGTPJiZMfUw/TcgQfYfw5C/dhO/kex/AY=&lt;/diagram&gt;&lt;/mxfile&gt;">
   <defs>
     <style type="text/css"><![CDATA[@font-face {
     font-family:'Pacifico';
@@ -26,7 +26,7 @@
   </g>
   <switch>
     <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" />
-    <a transform="translate(0,-5)" xlink:href="https://desk.draw.io/support/solutions/articles/16000042487" target="_blank" xlink:type="simple" xlink:show="replace" xlink:actuate="onRequest">
+    <a transform="translate(0,-5)" xlink:href="https://desk.draw.io/support/solutions/articles/16000042487" target="_blank">
       <text text-anchor="middle" font-size="10px" x="50%" y="100%">Viewer does not support full SVG 1.1</text>
     </a>
   </switch>

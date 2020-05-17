@@ -20,7 +20,6 @@ class GoogleFontsClient(
     @RestClient private val service: GoogleFontsService,
     @ConfigProperty(name = "fontDownloadDirectory") private val fontDownloadDirectory: String
 ) {
-    // TODO test
     // TODO only download if the files don't exists
     fun downloadFonts(detectedFonts: Set<String>): Map<String, List<GoogleFontsEntry>> {
         return detectedFonts.associateWith { detectedFont ->
@@ -62,7 +61,6 @@ interface GoogleFontsService {
     // UI https://google-webfonts-helper.herokuapp.com/fonts/pacifico?subsets=latin
     // Api Docs: https://github.com/majodev/google-webfonts-helper#rest-api
     // example: https://google-webfonts-helper.herokuapp.com/api/fonts/pacifico?download=zip&subsets=latin&variants=regular
-
     @GET
     @Path("/api/fonts/{font}")
     @Produces("application/zip")
