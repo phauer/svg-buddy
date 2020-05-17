@@ -12,12 +12,12 @@ import java.io.FileInputStream
 class GoogleFontsMockServer : QuarkusTestResourceLifecycleManager {
     private var server: MockWebServer? = null
 
-    override fun start(): MutableMap<String, String> {
+    override fun start(): Map<String, String> {
         server = MockWebServer().apply {
             dispatcher = GoogleFontsHelperDispatcher
             start()
         }
-        return mutableMapOf("com.phauer.svgfontembedding.processing.GoogleFontsService/mp-rest/url" to server!!.url("/").toString())
+        return mapOf("com.phauer.svgfontembedding.processing.GoogleFontsService/mp-rest/url" to server!!.url("/").toString())
     }
 
     override fun stop() {
