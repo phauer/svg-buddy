@@ -23,14 +23,14 @@ class CliParser {
         addOption(
             Option.builder()
                 .longOpt(Args.output)
-                .desc("The file path of the output SVG")
+                .desc("The file path of the output SVG. By default, a new file is created with the postfix '-e' in the same directory as the input file.")
                 .hasArg()
                 .build()
         )
         addOption(
             Option.builder()
                 .longOpt(Args.optimize)
-                .desc("Apply simple optimizations to the output SVG (e.g. removing metadata and compact XML). Default: false")
+                .desc("If set to 'true', simple optimizations are applied to the output SVG to reduce the file size. Default: 'false'")
                 .type(Boolean::class.java)
                 .hasArg()
                 .build()
