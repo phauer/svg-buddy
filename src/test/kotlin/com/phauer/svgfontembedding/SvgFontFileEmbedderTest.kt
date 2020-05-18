@@ -105,10 +105,19 @@ class SvgFontFileEmbedderTest {
         mockServer.requestCount shouldBe requestCountBefore + 1
     }
 
-    private fun processAndAssertOutputFileContent(testCaseName: String, expectedDetectedFonts: Set<String>) {
+    @Test
+    fun `inkscape - optimize - no text`() =
+        processAndAssertOutputFileContent(testCaseName = "inkscape/optimize-no-text", expectedDetectedFonts = setOf(), optimizeSvg = true)
+
+    @Test
+    fun `drawio - optimize - no text`() = processAndAssertOutputFileContent(testCaseName = "drawio/optimize-no-text", expectedDetectedFonts = setOf(), optimizeSvg = true)
+
+    private fun processAndAssertOutputFileContent(testCaseName: String, expectedDetectedFonts: Set<String>, optimizeSvg: Boolean = false) {
+        val optimizeParams = if (optimizeSvg) arrayOf("--optimize", "true") else arrayOf()
         embedder.embedFont(
             "--input", "$resourcesFolder/$testCaseName/input.svg",
-            "--output", "$outputFolder/$testCaseName.svg"
+            "--output", "$outputFolder/$testCaseName.svg",
+            *optimizeParams
         ).shouldBeTypeOf<EmbeddingResult.Success> { success ->
             success.detectedFonts shouldBe expectedDetectedFonts
             assertEqualContent(actualFile = success.outputFile, expectedFile = "$resourcesFolder/$testCaseName/expected.svg")

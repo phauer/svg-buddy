@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="271px" height="151px" viewBox="-0.5 -0.5 271 151"
+     content="&lt;mxfile host=&quot;Electron&quot; modified=&quot;2020-05-18T17:04:33.525Z&quot; agent=&quot;5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/13.0.3 Chrome/80.0.3987.163 Electron/8.2.1 Safari/537.36&quot; etag=&quot;rmBbHA__rtUwAMqJTcKN&quot; version=&quot;13.0.3&quot; type=&quot;device&quot;&gt;&lt;diagram id=&quot;fT_rUBfsAGaPjVtqxHuh&quot; name=&quot;Page-1&quot;&gt;rZRNc5swEIZ/DcfOAAoUHxPHTWfantyZJqeMIi2gVrCMvBg7vz4iLMbEzYdnckJ6diWt3n1RIJbV7sbJpvyFGmwQh3oXiOsgjqN4kfpPT/YDWSSLARTOaE6awNo8AsOQaWs0bGaJhGjJNHOosK5B0YxJ57Cbp+Vo56c2soATsFbSntI/RlM50Cz+OvHvYIpyPDlK+X6VHJP5JptSauyOkFgFYukQaRhVuyXYXrxRl2Hdt1eih8Ic1PSRBb/XaXQZ04/t3U2i7hHM7cX2C++ylbblC3OxtB8VcNjWGvpNokBcdaUhWDdS9dHO99yzkirL4dxYu0SL7nmt0BKyXHm+IYf/4CiSqgwech/hAsAR7F69WXTQyxsNsAJye5/CC0TCErPHxILn3dSxaGxDedStlJlkkxSHrScd/YClPENWcaIiaG8rnqKjEguspV1N9GrSOfSzKecnYsPq/gWiPf8jsiWcaz+c2R/0to6+LmydgjfqZxeQdAXQe/Y57YsDK8ls53V8usjx+971u/iHAs72bZ4pUP/17UOWXCTh5/g2CV/4Nvygb7Pzfeun01PzHDt6sMXqCQ==&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs/>
+    <g>
+        <rect x="0" y="90" width="120" height="60" rx="9" ry="9" fill="#dae8fc" stroke="#6c8ebf" pointer-events="all"/>
+        <path d="M 150 39.94 L 60 39.94 L 60 83.63" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="stroke"/>
+        <path d="M 60 88.88 L 56.5 81.88 L 60 83.63 L 63.5 81.88 Z" fill="#000000" stroke="#000000"
+              stroke-miterlimit="10" pointer-events="all"/>
+        <ellipse cx="210" cy="40" rx="60" ry="40" fill="#f8cecc" stroke="#b85450" pointer-events="all"/>
+    </g>
+</svg>

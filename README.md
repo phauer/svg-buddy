@@ -5,12 +5,25 @@ Command line tool to embed fonts into an SVG file. This way, you can ensure an a
 # Features
 
 There are already other CLI tools like [svg-embed-font](https://github.com/BTBurke/svg-embed-font) or [nano](https://www.npmjs.com/package/nanosvg) for embedding fonts into SVGs. Nevertheless, we created svg-font-embedding because it uniquely combines the following features at the same time: 
-- It automatically downloads the required fonts. Only Google Fonts are supported. The fonts are cached locally to avoid downloading them again and again.
-- It embeds WOFF2 instead of TTF. WOFF2 files are compressed and therefore much smaller (up to factor 10). Consequently, the size of the output SVG is still acceptable. See [Can I Use WOFF2](https://caniuse.com/#search=woff2).
-- Embedding always works as we rely on a properly parsed DOM instead of string replacement in the SVG. So it doesn't matter how the `<def>` tag exactly looks like (normal, empty, missing). This is also ensured with several tests using real-world SVGs from different editors like Inkscape or Draw.io.
+
+- It automatically downloads the required fonts. Only Google Fonts are supported. The fonts are cached locally to avoid downloading them again and again. Moreover, it embeds [WOFF2](https://caniuse.com/#search=woff2) fonts which are compressed and therefore much smaller (up to the factor 10 compared to TTF). 
+- The embedding should always work. See [Reliable Embedding](#reliable-embedding) for details.
+- It can optimize the SVG to reduce the file size. See [Optimizations](#optimizations) for details.
 - It's free.
 - It works offline.
 - No installation or certain environment (like npm) required. Just download the native executable and run it.
+
+## Reliable Embedding
+
+The font embedding should always work as we rely on a properly parsed DOM instead of string replacement in the SVG. So it doesn't matter how the `<def>` tag exactly looks like (normal, empty, missing, with whitespace between the attributes). This is also ensured with several tests using real-world SVGs from different editors like Inkscape or Draw.io.
+
+## Optimizations
+
+Currently, we only support simple optimizations.
+
+- Remove the meta data that some editors write in the svg (like Inkscape's `metadata` tag or Draw.io's `content` attribute).
+- Remove all tags, attributes and namespace declarations that don't belong to the SVG namespace.
+- Remove all whitespaces like spaces, tabs and line breaks.
 
 # Development
 
@@ -22,9 +35,7 @@ There are already other CLI tools like [svg-embed-font](https://github.com/BTBur
 
 ## Run the Tests
 
-```
-./mvnw test
-```
+Execute them directly via IntelliJ IDEA or Maven using `./mvnw test`
 
 ## Creating a native executable
 

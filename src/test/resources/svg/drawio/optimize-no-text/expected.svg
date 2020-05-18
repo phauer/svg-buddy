@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="271px" height="151px" viewBox="-0.5 -0.5 271 151">
+    <defs/>
+    <g>
+        <rect x="0" y="90" width="120" height="60" rx="9" ry="9" fill="#dae8fc" stroke="#6c8ebf" pointer-events="all"/>
+        <path d="M 150 39.94 L 60 39.94 L 60 83.63" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="stroke"/>
+        <path d="M 60 88.88 L 56.5 81.88 L 60 83.63 L 63.5 81.88 Z" fill="#000000" stroke="#000000"
+              stroke-miterlimit="10" pointer-events="all"/>
+        <ellipse cx="210" cy="40" rx="60" ry="40" fill="#f8cecc" stroke="#b85450" pointer-events="all"/>
+    </g>
+</svg>

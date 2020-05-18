@@ -2,11 +2,12 @@
 
 ## Prio 1
 
-- apply simple svg optimizations (e.g. remove metadata, don't pretty print)
+- try with some of mine real world svgs
+- README: cli usage
 
 ## Prio 2
 
-- Try [XmlBeam](https://xmlbeam.org/) instead of jdom2
+- Try [XmlBeam](https://xmlbeam.org/) or [jsoup](https://jsoup.org/) instead of jdom2
 - dedicated tests for. e.g. for:
     - different fonts
     - multiple fonts

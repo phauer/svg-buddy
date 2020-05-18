@@ -27,6 +27,14 @@ class CliParser {
                 .hasArg()
                 .build()
         )
+        addOption(
+            Option.builder()
+                .longOpt(Args.optimize)
+                .desc("Apply simple optimizations to the output SVG (e.g. removing metadata and compact XML). Default: false")
+                .type(Boolean::class.java)
+                .hasArg()
+                .build()
+        )
     }
 
     @Throws(ParseException::class, CliParserException::class)
@@ -36,7 +44,8 @@ class CliParser {
         val inputFile = commandLine.getOptionValue(Args.input)
         return Arguments(
             inputFile = validateAndGetExistingFile(inputFile),
-            outputFile = if (commandLine.hasOption(Args.output)) commandLine.getOptionValue(Args.output) else null
+            outputFile = if (commandLine.hasOption(Args.output)) commandLine.getOptionValue(Args.output) else null,
+            optimize = if (commandLine.hasOption(Args.optimize)) commandLine.getOptionValue(Args.optimize).toBoolean() else false
         )
     }
 
@@ -58,10 +67,12 @@ class CliParserException(msg: String) : RuntimeException(msg)
 
 data class Arguments(
     val inputFile: Path,
-    val outputFile: String?
+    val outputFile: String?,
+    val optimize: Boolean
 )
 
 private object Args {
     const val input = "input"
     const val output = "output"
+    const val optimize = "optimize"
 }

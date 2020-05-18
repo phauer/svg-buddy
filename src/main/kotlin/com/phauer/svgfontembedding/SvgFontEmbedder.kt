@@ -6,8 +6,12 @@ import com.phauer.svgfontembedding.processing.FileEmbedder
 import com.phauer.svgfontembedding.processing.GoogleFontsClient
 import com.phauer.svgfontembedding.processing.GoogleFontsEntry
 import com.phauer.svgfontembedding.processing.SvgFontDetector
+import com.phauer.svgfontembedding.processing.SvgOptimizer
+import com.phauer.svgfontembedding.processing.util.NonValidatingXmlReaderFactory
 import org.apache.commons.cli.ParseException
 import org.jboss.logging.Logger
+import org.jdom2.Document
+import org.jdom2.input.SAXBuilder
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -18,7 +22,8 @@ class SvgFontEmbedder(
     private val cliParser: CliParser,
     private val svgFontDetector: SvgFontDetector,
     private val googleFontsClient: GoogleFontsClient,
-    private val fileEmbedder: FileEmbedder
+    private val fileEmbedder: FileEmbedder,
+    private val optimizer: SvgOptimizer
 ) {
     private val log: Logger = Logger.getLogger(this::class.java)
 
@@ -29,22 +34,17 @@ class SvgFontEmbedder(
 
         println("Detecting Fonts...")
         val detectedFonts = svgFontDetector.detectUsedFontsInSvg(inputSvgString)
-        if (detectedFonts.isEmpty()) {
-            println("No fonts detected. Just copying the input SVG to $newFileName...")
-            writeSvgToFile(newFileName, inputSvgString)
-            println("Done.")
-            EmbeddingResult.Success(detectedFonts = detectedFonts, outputFile = newFileName)
-        } else {
-            println("Downloading Fonts $detectedFonts...")
-            val googleFonts = googleFontsClient.downloadFonts(detectedFonts)
-            val filteredGoogleFonts = selectRegularFontFile(googleFonts)
-            println("Embedding Google Fonts ${filteredGoogleFonts.map(GoogleFontsEntry::fileName)} into SVG...")
-            val outputSvgString = fileEmbedder.embedFontsIntoSvg(inputSvgString, filteredGoogleFonts)
-            println("Write new SVG to $newFileName...")
-            writeSvgToFile(newFileName, outputSvgString)
-            println("Done.")
-            EmbeddingResult.Success(detectedFonts = detectedFonts, outputFile = newFileName)
-        }
+
+        val doc = SAXBuilder(NonValidatingXmlReaderFactory).build(inputSvgString.byteInputStream())
+        embeddFonts(detectedFonts, doc)
+
+        val optimizedSvgString = optimizer.optimizeSvgAndReturnSvgString(arguments, doc)
+
+        println("Write new SVG to $newFileName...")
+        writeSvgToFile(newFileName, optimizedSvgString)
+
+        println("Done.")
+        EmbeddingResult.Success(detectedFonts = detectedFonts, outputFile = newFileName)
     } catch (ex: Exception) {
         when (ex) {
             is CliParserException, is ParseException -> EmbeddingResult.Failure(message = ex.message!!)
@@ -52,6 +52,18 @@ class SvgFontEmbedder(
                 log.error("Embedding Failed", ex)
                 EmbeddingResult.Failure(message = ex.message!!)
             }
+        }
+    }
+
+    private fun embeddFonts(detectedFonts: Set<String>, svg: Document) {
+        if (detectedFonts.isEmpty()) {
+            println("No fonts detected.")
+        } else {
+            println("Downloading Fonts $detectedFonts...")
+            val googleFonts = googleFontsClient.downloadFonts(detectedFonts)
+            val filteredGoogleFonts = selectRegularFontFile(googleFonts)
+            println("Embedding Google Fonts ${filteredGoogleFonts.map(GoogleFontsEntry::fileName)} into SVG...")
+            fileEmbedder.embedFontsIntoSvg(svg, filteredGoogleFonts)
         }
     }
 
