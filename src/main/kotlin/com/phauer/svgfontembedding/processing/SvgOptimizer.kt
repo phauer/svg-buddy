@@ -46,20 +46,11 @@ class SvgOptimizer {
 
     private fun removeEmptyGTagChildren(parentTag: Element) {
         parentTag.children
-            .filter { tag -> tag.name == "g" && !tag.containsElements() }
+            .filter { tag -> tag.name == "g" && tag.isEmpty() }
             .forEach { tag -> parentTag.removeContent(tag) }
     }
 
-    private fun Element.containsElements(): Boolean {
-        return when(contentSize) {
-            0 -> false
-            1 -> {
-                val children = content.first()
-                children !is Text || !children.text.isBlank()
-            }
-            else -> true
-        }
-    }
+    private fun Element.isEmpty() = content.all { children -> children is Text && children.text.isBlank() }
 
     private fun removeNonSvgNSDeclarations(svgTag: Element) {
         svgTag.additionalNamespaces
