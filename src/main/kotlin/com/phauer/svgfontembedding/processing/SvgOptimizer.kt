@@ -2,6 +2,7 @@ package com.phauer.svgfontembedding.processing
 
 import org.jdom2.Document
 import org.jdom2.Element
+import org.jdom2.Text
 import org.jdom2.output.Format
 import org.jdom2.output.XMLOutputter
 import javax.enterprise.context.ApplicationScoped
@@ -18,28 +19,46 @@ class SvgOptimizer {
         removeNonSvgNSDeclarations(svgTag)
         removeMetaData(svgTag)
         removeContentAttribute(svgTag)
-        removeNonSvgChildrenAndAttributesRecursively(svgTag)
+        cleanTagsRecursively(svgTag)
         XMLOutputter(Format.getCompactFormat()).outputString(doc)
     } else {
         XMLOutputter(Format.getPrettyFormat()).outputString(doc)
     }
 
-    private fun removeNonSvgChildrenAndAttributesRecursively(tag: Element) {
-        removeNonSvgAttributes(tag)
-        removeNonSvgChildren(tag)
-        tag.children.forEach { child -> removeNonSvgChildrenAndAttributesRecursively(child) }
+    private fun cleanTagsRecursively(parent: Element) {
+        removeNonSvgAttributes(parent)
+        removeNonSvgChildren(parent)
+        removeEmptyGTagChildren(parent)
+        parent.children.forEach { child -> cleanTagsRecursively(child) }
     }
 
     private fun removeMetaData(svgTag: Element) {
         svgTag.children
             .filter { tag -> tag.name == Tags.metadata }
-            .forEach { tag -> svgTag.removeChild(tag.name, tag.namespace) }
+            .forEach { tag -> svgTag.removeContent(tag) }
     }
 
-    private fun removeNonSvgChildren(svgTag: Element) {
-        svgTag.children
+    private fun removeNonSvgChildren(parentTag: Element) {
+        parentTag.children
             .filter { tag -> tag.namespaceURI != SVG_NS_URI }
-            .forEach { tag -> svgTag.removeChild(tag.name, tag.namespace) }
+            .forEach { tag -> parentTag.removeContent(tag) }
+    }
+
+    private fun removeEmptyGTagChildren(parentTag: Element) {
+        parentTag.children
+            .filter { tag -> tag.name == "g" && !tag.containsElements() }
+            .forEach { tag -> parentTag.removeContent(tag) }
+    }
+
+    private fun Element.containsElements(): Boolean {
+        return when(contentSize) {
+            0 -> false
+            1 -> {
+                val children = content.first()
+                children !is Text || !children.text.isBlank()
+            }
+            else -> true
+        }
     }
 
     private fun removeNonSvgNSDeclarations(svgTag: Element) {
@@ -48,10 +67,10 @@ class SvgOptimizer {
             .forEach { ns -> svgTag.removeNamespaceDeclaration(ns) }
     }
 
-    private fun removeNonSvgAttributes(svgTag: Element) {
-        svgTag.attributes
+    private fun removeNonSvgAttributes(parentTag: Element) {
+        parentTag.attributes
             .filter { attr -> attr.namespaceURI != SVG_NS_URI && attr.namespaceURI.isNotBlank() }
-            .forEach { attr -> svgTag.removeAttribute(attr) }
+            .forEach { attr -> parentTag.removeAttribute(attr) }
     }
 
 

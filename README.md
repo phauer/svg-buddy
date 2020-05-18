@@ -4,7 +4,7 @@ Command line tool to embed fonts into an SVG file. This way, you can ensure an a
 
 # Features
 
-There are already other CLI tools like [svg-embed-font](https://github.com/BTBurke/svg-embed-font) or [nano](https://www.npmjs.com/package/nanosvg) for embedding fonts into SVGs. Nevertheless, we created svg-font-embedding because it uniquely combines the following features at the same time: 
+There are already other good CLI tools like [svg-embed-font](https://github.com/BTBurke/svg-embed-font) or [nano](https://www.npmjs.com/package/nanosvg) for embedding fonts into SVGs. Nevertheless, I created svg-font-embedding because it uniquely combines the following features at the same time: 
 
 - It automatically downloads the required fonts. Only Google Fonts are supported. The fonts are cached locally to avoid downloading them again and again. Moreover, it embeds [WOFF2](https://caniuse.com/#search=woff2) fonts which are compressed and therefore much smaller (up to the factor 10 compared to TTF). 
 - The embedding should always work. See [Reliable Embedding](#reliable-embedding) for details.
@@ -15,14 +15,15 @@ There are already other CLI tools like [svg-embed-font](https://github.com/BTBur
 
 ## Reliable Embedding
 
-The font embedding should always work as we rely on a properly parsed DOM instead of string replacement in the SVG. So it doesn't matter how the `<def>` tag exactly looks like (normal, empty, missing, with whitespace between the attributes). This is also ensured with several tests using real-world SVGs from different editors like Inkscape or Draw.io.
+The font embedding should always work as `svg-font-embedding` relies on a properly parsed DOM instead of string replacement in the SVG. So it doesn't matter how the `<def>` tag exactly looks like (normal, empty, missing, with whitespace between the attributes). This is also ensured with several tests using real-world SVGs from different editors like Inkscape or Draw.io.
 
 ## Optimizations
 
-Currently, we only support simple optimizations.
+Currently, `svg-font-embedding` only supports simple optimizations.
 
 - Remove the meta data that some editors write in the svg (like Inkscape's `metadata` tag or Draw.io's `content` attribute).
 - Remove all tags, attributes and namespace declarations that don't belong to the SVG namespace.
+- Remove empty `g` tags. Adobe Illustrator creates those at the end of an SVG.
 - Remove all whitespaces like spaces, tabs and line breaks.
 
 # Development

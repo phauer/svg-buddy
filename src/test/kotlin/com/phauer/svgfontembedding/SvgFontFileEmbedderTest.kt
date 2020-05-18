@@ -106,11 +106,14 @@ class SvgFontFileEmbedderTest {
     }
 
     @Test
-    fun `inkscape - optimize - no text`() =
+    fun `inkscape - optimize - remove metadata and non-svg-elemetns`() =
         processAndAssertOutputFileContent(testCaseName = "inkscape/optimize-no-text", expectedDetectedFonts = setOf(), optimizeSvg = true)
 
     @Test
-    fun `drawio - optimize - no text`() = processAndAssertOutputFileContent(testCaseName = "drawio/optimize-no-text", expectedDetectedFonts = setOf(), optimizeSvg = true)
+    fun `drawio - optimize - remove content attribute`() = processAndAssertOutputFileContent(testCaseName = "drawio/optimize-no-text", expectedDetectedFonts = setOf(), optimizeSvg = true)
+
+    @Test
+    fun `illustrator - optimize - remove empty g tags`() = processAndAssertOutputFileContent(testCaseName = "illustrator/optimize-empty-g-tags", expectedDetectedFonts = setOf(), optimizeSvg = true)
 
     private fun processAndAssertOutputFileContent(testCaseName: String, expectedDetectedFonts: Set<String>, optimizeSvg: Boolean = false) {
         val optimizeParams = if (optimizeSvg) arrayOf("--optimize", "true") else arrayOf()
