@@ -9,6 +9,7 @@ There are already other good CLI tools like [svg-embed-font](https://github.com/
 - It automatically downloads the required fonts. Only Google Fonts are supported. The fonts are cached locally to avoid downloading them again and again. Moreover, it embeds [WOFF2](https://caniuse.com/#search=woff2) fonts which are compressed and therefore much smaller (up to the factor 10 compared to TTF). 
 - The embedding should always work. See [Reliable Embedding](#reliable-embedding) for details.
 - It can optimize the SVG to reduce the file size. See [Optimizations](#optimizations) for details.
+- Compatible with Draw.io SVGs. No text will be cut off with an ellipsis and no warning about the SVG support will be shown. 
 - It's free.
 - It works offline.
 - No installation or certain environment (like npm) required. Just download the native executable and run it.

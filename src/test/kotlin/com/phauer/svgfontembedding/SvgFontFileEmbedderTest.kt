@@ -47,10 +47,11 @@ class SvgFontFileEmbedderTest {
     @Test
     @EnabledIfEnvironmentVariable(named = "adhoc", matches = "true")
     fun `ad-hoc test to execute the embedding for a specific file`() {
-        val name = "no-text"
+        val name = "complex-diagram"
         embedder.embedFont(
-            "--input", "$resourcesFolder/custom/$name/input.svg",
-            "--output", "$outputFolder/$name.svg"
+            "--input", "$resourcesFolder/drawio/$name/input.svg",
+            "--output", "$outputFolder/$name.svg",
+            "--optimize", "true"
         )
     }
 
@@ -114,6 +115,14 @@ class SvgFontFileEmbedderTest {
 
     @Test
     fun `illustrator - optimize - remove empty g tags`() = processAndAssertOutputFileContent(testCaseName = "illustrator/optimize-empty-g-tags", expectedDetectedFonts = setOf(), optimizeSvg = true)
+
+    @Test
+    fun `drawio - complex diagram`() = processAndAssertOutputFileContent(testCaseName = "drawio/complex-diagram", expectedDetectedFonts = setOf("Roboto"), optimizeSvg = false)
+
+
+    @Test
+    fun `drawio - complex diagram - optimize`() = processAndAssertOutputFileContent(testCaseName = "drawio/optimize-complex-diagram", expectedDetectedFonts = setOf("Roboto"), optimizeSvg = true)
+
 
     private fun processAndAssertOutputFileContent(testCaseName: String, expectedDetectedFonts: Set<String>, optimizeSvg: Boolean = false) {
         val optimizeParams = if (optimizeSvg) arrayOf("--optimize", "true") else arrayOf()

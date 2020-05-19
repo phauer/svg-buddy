@@ -7,11 +7,10 @@ import org.jdom2.output.Format
 import org.jdom2.output.XMLOutputter
 import javax.enterprise.context.ApplicationScoped
 
-/** mind to match also URI without the tailing slash */
-const val SVG_NS_URI = "http://www.w3.org/2000/svg"
-
 @ApplicationScoped
 class SvgOptimizer {
+
+    private val ALLOWED_NAMESPACES = setOf(NamespaceUris.SVG, NamespaceUris.XHTML)
 
     fun optimizeSvgAndReturnSvgString(arguments: Arguments, doc: Document): String = if (arguments.optimize) {
         println("Optimize SVG...")
@@ -40,13 +39,13 @@ class SvgOptimizer {
 
     private fun removeNonSvgChildren(parentTag: Element) {
         parentTag.children
-            .filter { tag -> tag.namespaceURI != SVG_NS_URI }
+            .filter { tag -> tag.namespaceURI !in ALLOWED_NAMESPACES }
             .forEach { tag -> parentTag.removeContent(tag) }
     }
 
     private fun removeEmptyGTagChildren(parentTag: Element) {
         parentTag.children
-            .filter { tag -> tag.name == "g" && tag.isEmpty() }
+            .filter { tag -> tag.name == "g" && tag.isEmpty() && !tag.hasAttributes() }
             .forEach { tag -> parentTag.removeContent(tag) }
     }
 
@@ -54,13 +53,13 @@ class SvgOptimizer {
 
     private fun removeNonSvgNSDeclarations(svgTag: Element) {
         svgTag.additionalNamespaces
-            .filter { ns -> ns.uri != SVG_NS_URI }
+            .filter { ns -> ns.uri !in ALLOWED_NAMESPACES }
             .forEach { ns -> svgTag.removeNamespaceDeclaration(ns) }
     }
 
     private fun removeNonSvgAttributes(parentTag: Element) {
         parentTag.attributes
-            .filter { attr -> attr.namespaceURI != SVG_NS_URI && attr.namespaceURI.isNotBlank() }
+            .filter { attr -> attr.namespaceURI !in ALLOWED_NAMESPACES && attr.namespaceURI.isNotBlank() }
             .forEach { attr -> parentTag.removeAttribute(attr) }
     }
 
@@ -72,4 +71,14 @@ class SvgOptimizer {
         svgTag.removeAttribute("content")
     }
 
+}
+
+/** mind to match also URI without the tailing slash */
+object NamespaceUris {
+    const val SVG = "http://www.w3.org/2000/svg"
+
+    /**
+     * Draw.io puts the actual text in `<div xmlns="http://www.w3.org/1999/xhtml">`. So we have to prevent them.
+     */
+    const val XHTML = "http://www.w3.org/1999/xhtml"
 }
