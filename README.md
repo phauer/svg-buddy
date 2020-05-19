@@ -16,7 +16,13 @@ There are already other good CLI tools like [svg-embed-font](https://github.com/
 
 ## Reliable Embedding
 
-The font embedding should always work as `svg-font-embedding` relies on a properly parsed DOM instead of string replacement in the SVG. So it doesn't matter how the `<def>` tag exactly looks like (normal, empty, missing, with whitespace between the attributes). This is also ensured with several tests using real-world SVGs from different editors like Inkscape or Draw.io.
+The font embedding should always work as `svg-font-embedding` relies on a properly parsed DOM instead of string replacement in the SVG. So it doesn't matter how the `<def>` tag exactly looks like (normal, empty, missing, with whitespace between the attributes). This is also ensured with several tests using real-world SVGs from different editors like:
+ 
+ - Inkscape
+ - Draw.io
+ - yEd
+ 
+ Moreover, `svg-font-embedding` won't destroy the SVG.
 
 ## Optimizations
 

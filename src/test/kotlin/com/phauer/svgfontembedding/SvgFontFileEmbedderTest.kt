@@ -125,6 +125,10 @@ class SvgFontFileEmbedderTest {
     @Test
     fun `illustrator - optimize - remove empty g tags`() = processAndAssertOutputFileContent(testCaseName = "illustrator/optimize-empty-g-tags", expectedDetectedFonts = setOf(), optimizeSvg = true)
 
+    /**
+     * don't remove html tags as they contain the text in draw.io
+     * don't remove empty g tag if there are attributes. draw.io uses it to hide the "SVG not supported" warning.
+     */
     @Test
     fun `drawio - complex diagram`() = processAndAssertOutputFileContent(testCaseName = "drawio/complex-diagram", expectedDetectedFonts = setOf("Roboto"), optimizeSvg = false)
 
@@ -136,6 +140,13 @@ class SvgFontFileEmbedderTest {
 
     @Test
     fun `inkscape - complex diagram - optimize`() = processAndAssertOutputFileContent(testCaseName = "inkscape/complex-diagram-optimize", expectedDetectedFonts = setOf("Roboto Mono", "Roboto"), optimizeSvg = true)
+
+    /** yEd places the font declaration in a dedicated attribute instead of the style attr: <bla font-family="'Roboto'"> */
+    @Test
+    fun `yed - shape and text`() = processAndAssertOutputFileContent(testCaseName = "yed/shapes-texts", expectedDetectedFonts = setOf("Roboto"))
+
+    @Test
+    fun `yed - shape and text - optimize`() = processAndAssertOutputFileContent(testCaseName = "yed/shapes-texts-optimize", expectedDetectedFonts = setOf("Roboto"),optimizeSvg = true)
 
     private fun processAndAssertOutputFileContent(testCaseName: String, expectedDetectedFonts: Set<String>, optimizeSvg: Boolean = false) {
         val optimizeParams = if (optimizeSvg) arrayOf("--optimize", "true") else arrayOf()
