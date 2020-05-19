@@ -61,9 +61,16 @@ class GoogleFontsClient(
     private fun downloadZippedFontFamily(detectedFont: String) = try {
         service.downloadZippedFontFamily(font = detectedFont)
     } catch (ex: WebApplicationException) {
-        throw RuntimeException("Failed to download google font $detectedFont.", ex)
+        val msg = if (ex.response.status == 404) {
+            "Font $detectedFont could not be found on Google Fonts. Check out https://google-webfonts-helper.herokuapp.com/fonts to find an available font."
+        } else {
+            "Failed to download google font $detectedFont. Message: ${ex.message}"
+        }
+        throw GoogleFontsClientException(msg, ex)
     }
 }
+
+class GoogleFontsClientException(message: String, ex: Exception) : RuntimeException(message, ex)
 
 @ApplicationScoped
 @RegisterRestClient

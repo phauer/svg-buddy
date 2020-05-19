@@ -1,6 +1,7 @@
 package com.phauer.svgfontembedding
 
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeTypeOf
 import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.junit.QuarkusTest
@@ -17,7 +18,7 @@ import java.nio.file.Paths
 import javax.inject.Inject
 
 @QuarkusTest
-@QuarkusTestResource(GoogleFontsMockServer::class)
+//@QuarkusTestResource(GoogleFontsMockServer::class)
 class SvgFontFileEmbedderTest {
     @Inject
     lateinit var embedder: SvgFontEmbedder
@@ -92,6 +93,14 @@ class SvgFontFileEmbedderTest {
             failure.message shouldBe "File foooo.svg not found."
         }
     }
+
+    @Test
+    fun `errors - font doesnt exist at google fonts `() {
+        embedder.embedFont("--input", "$resourcesFolder/custom/no-google-font/input.svg").shouldBeTypeOf<EmbeddingResult.Failure> { failure ->
+            failure.message shouldContain "courier-new could not be found on Google Fonts"
+        }
+    }
+
 
     @Test
     fun `fonts get cached locally and not downloaded on the second run`() {

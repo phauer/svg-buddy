@@ -4,6 +4,7 @@ import com.phauer.svgfontembedding.processing.CliParser
 import com.phauer.svgfontembedding.processing.CliParserException
 import com.phauer.svgfontembedding.processing.FileEmbedder
 import com.phauer.svgfontembedding.processing.GoogleFontsClient
+import com.phauer.svgfontembedding.processing.GoogleFontsClientException
 import com.phauer.svgfontembedding.processing.GoogleFontsEntry
 import com.phauer.svgfontembedding.processing.SvgFontDetector
 import com.phauer.svgfontembedding.processing.SvgOptimizer
@@ -47,7 +48,7 @@ class SvgFontEmbedder(
         EmbeddingResult.Success(detectedFonts = detectedFonts, outputFile = newFileName)
     } catch (ex: Exception) {
         when (ex) {
-            is CliParserException, is ParseException -> EmbeddingResult.Failure(message = ex.message!!)
+            is CliParserException, is ParseException, is GoogleFontsClientException -> EmbeddingResult.Failure(message = ex.message!!)
             else -> {
                 log.error("Embedding Failed", ex)
                 EmbeddingResult.Failure(message = ex.message!!)
