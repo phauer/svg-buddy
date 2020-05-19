@@ -1,5 +1,6 @@
 package com.phauer.svgfontembedding.processing
 
+import org.jdom2.Comment
 import org.jdom2.Document
 import org.jdom2.Element
 import org.jdom2.Text
@@ -14,6 +15,7 @@ class SvgOptimizer {
 
     fun optimizeSvgAndReturnSvgString(arguments: Arguments, doc: Document): String = if (arguments.optimize) {
         println("Optimize SVG...")
+        removeChildComments(doc)
         val svgTag = doc.rootElement
         removeNonSvgNSDeclarations(svgTag)
         removeMetaData(svgTag)
@@ -24,10 +26,23 @@ class SvgOptimizer {
         XMLOutputter(Format.getPrettyFormat()).outputString(doc)
     }
 
+    private fun removeChildComments(parent: Element) {
+        parent.content
+            .filter { tag -> tag is Comment }
+            .forEach { tag -> parent.removeContent(tag) }
+    }
+
+    private fun removeChildComments(doc: Document) {
+        doc.content
+            .filter { tag -> tag is Comment }
+            .forEach { tag -> doc.removeContent(tag) }
+    }
+
     private fun cleanTagsRecursively(parent: Element) {
         removeNonSvgAttributes(parent)
         removeNonSvgChildren(parent)
         removeEmptyGTagChildren(parent)
+        removeChildComments(parent)
         parent.children.forEach { child -> cleanTagsRecursively(child) }
     }
 

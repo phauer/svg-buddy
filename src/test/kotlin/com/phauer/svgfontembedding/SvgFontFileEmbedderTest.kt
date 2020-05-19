@@ -122,6 +122,10 @@ class SvgFontFileEmbedderTest {
     @Test
     fun `drawio - optimize - remove content attribute`() = processAndAssertOutputFileContent(testCaseName = "drawio/optimize-no-text", expectedDetectedFonts = setOf(), optimizeSvg = true)
 
+    /**
+     * remove empty g tags
+     * remove comments
+     */
     @Test
     fun `illustrator - optimize - remove empty g tags`() = processAndAssertOutputFileContent(testCaseName = "illustrator/optimize-empty-g-tags", expectedDetectedFonts = setOf(), optimizeSvg = true)
 
@@ -145,6 +149,9 @@ class SvgFontFileEmbedderTest {
     @Test
     fun `yed - shape and text`() = processAndAssertOutputFileContent(testCaseName = "yed/shapes-texts", expectedDetectedFonts = setOf("Roboto"))
 
+    /**
+     * remove comments
+     */
     @Test
     fun `yed - shape and text - optimize`() = processAndAssertOutputFileContent(testCaseName = "yed/shapes-texts-optimize", expectedDetectedFonts = setOf("Roboto"),optimizeSvg = true)
 

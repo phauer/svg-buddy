@@ -21,8 +21,6 @@ The font embedding should always work as `svg-font-embedding` relies on a proper
  - Inkscape
  - Draw.io
  - yEd
- 
- Moreover, `svg-font-embedding` won't destroy the SVG.
 
 ## Optimizations
 
@@ -31,6 +29,7 @@ Currently, `svg-font-embedding` only supports simple optimizations.
 - Remove the meta data that some editors write in the svg (like Inkscape's `metadata` tag or Draw.io's `content` attribute).
 - Remove all tags, attributes and namespace declarations that don't belong to the SVG namespace.
 - Remove empty `g` tags. Adobe Illustrator creates those at the end of an SVG.
+- Remove comments.
 - Remove all whitespaces like spaces, tabs and line breaks.
 
 # Development

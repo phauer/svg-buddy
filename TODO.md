@@ -8,8 +8,6 @@
 ## Prio 2
 
 - Also use the parsed DOM for the Font detection instead of a regex.
-- further optimizations:
-    - remove comments. e.g. `<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->` before `<svg>`
 - Try [XmlBeam](https://xmlbeam.org/) or [jsoup](https://jsoup.org/) instead of jdom2
 - dedicated tests for. e.g. for:
     - different fonts
