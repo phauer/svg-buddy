@@ -18,7 +18,7 @@ import java.nio.file.Paths
 import javax.inject.Inject
 
 @QuarkusTest
-//@QuarkusTestResource(GoogleFontsMockServer::class)
+@QuarkusTestResource(GoogleFontsMockServer::class)
 class SvgFontFileEmbedderTest {
     @Inject
     lateinit var embedder: SvgFontEmbedder
@@ -128,10 +128,14 @@ class SvgFontFileEmbedderTest {
     @Test
     fun `drawio - complex diagram`() = processAndAssertOutputFileContent(testCaseName = "drawio/complex-diagram", expectedDetectedFonts = setOf("Roboto"), optimizeSvg = false)
 
-
     @Test
     fun `drawio - complex diagram - optimize`() = processAndAssertOutputFileContent(testCaseName = "drawio/optimize-complex-diagram", expectedDetectedFonts = setOf("Roboto"), optimizeSvg = true)
 
+    @Test
+    fun `inkscape - complex diagram`() = processAndAssertOutputFileContent(testCaseName = "inkscape/complex-diagram", expectedDetectedFonts = setOf("Roboto Mono", "Roboto"), optimizeSvg = false)
+
+    @Test
+    fun `inkscape - complex diagram - optimize`() = processAndAssertOutputFileContent(testCaseName = "inkscape/complex-diagram-optimize", expectedDetectedFonts = setOf("Roboto Mono", "Roboto"), optimizeSvg = true)
 
     private fun processAndAssertOutputFileContent(testCaseName: String, expectedDetectedFonts: Set<String>, optimizeSvg: Boolean = false) {
         val optimizeParams = if (optimizeSvg) arrayOf("--optimize", "true") else arrayOf()
