@@ -33,7 +33,8 @@ Currently, `svg-font-embedding` only supports simple optimizations.
 
 # System Requirements
 
-Currently, `svg-font-embedding` is only available for Linux. Just download the binary and execute it.
+- Linux users can use the native executable `svg-font-embedding`.
+- Windows and Mac users need a Java 11 Runtime (JRE) on their system. Next, they can use the `svg-font-embedding.jar` to execute the tool.
 
 # Usage
 
@@ -49,13 +50,16 @@ Examples:
 
 ```bash
 # embed font into file.svg and save it under file-e.svg
-svg-font-embedding file.svg 
+svg-font-embedding file.svg # Linux
+java -jar svg-font-embedding.jar file.svg # Windows & Mac
 
 # embed font into file.svg, optimize the file size and save it under file-eo.svg
-svg-font-embedding file.svg -o
+svg-font-embedding file.svg -o # Linux
+java -jar svg-font-embedding.jar file.svg -o # Windows & Mac
 
 # embed font into file.svg and save it under output.svg
-svg-font-embedding file.svg output.svg
+svg-font-embedding file.svg output.svg # Linux
+java -jar svg-font-embedding.jar file.svg output.svg # Windows & Mac
 ```
 
 # Development
@@ -70,10 +74,24 @@ svg-font-embedding file.svg output.svg
 
 Execute them directly via IntelliJ IDEA or Maven using `./mvnw test`
 
-## Creating a Linux Native Executable
+## Build
 
-```
-./mvnw package -Pnative
+Build the native Linux executable:
+
+```bash
+# Build
+./mvnw package -Pnative -Dquarkus.native.container-build=true
+
+# Execute
+./target/svg-font-embedding-runner input.svg
 ```
 
-You can then execute the native Linux executable with: `./target/svg-font-embedding`
+Build the fat jar which can be executed via Java on every system (Mac, Windows):
+
+```bash
+# Build
+./mvnw package -Dquarkus.package.uber-jar=true
+
+# Execute
+java -jar target/svg-font-embedding-runner.jar input.svg
+```

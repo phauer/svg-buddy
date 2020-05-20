@@ -2,8 +2,6 @@
 
 ## Prio 1
 
-- Be more platform-independent (fat jar, web service, launch4j, docker)
-
 ## Prio 2
 
 - Use parameterized tests when Quarkus supports this with 1.5.0
