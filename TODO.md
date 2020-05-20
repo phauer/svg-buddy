@@ -4,8 +4,8 @@
 
 ## Prio 2
 
-- `--help`
-- `--version`
+- Use parameterized tests when Quarkus supports this with 1.5.0
+- print version number. `--version`
 - Also use the parsed DOM for the Font detection instead of a regex.
 - Try [XmlBeam](https://xmlbeam.org/) or [jsoup](https://jsoup.org/) instead of jdom2
 - write test for more SVGs

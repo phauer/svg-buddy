@@ -13,7 +13,7 @@ import javax.enterprise.context.ApplicationScoped
 class CliParser {
     private val options = Options().apply {
         addOption(
-            Option.builder()
+            Option.builder(Args.o)
                 .longOpt(Args.optimize)
                 .desc("If set, simple optimizations are applied to the output SVG to reduce the file size.")
                 .build()
@@ -58,4 +58,5 @@ data class Arguments(
 
 private object Args {
     const val optimize = "optimize"
+    const val o = "o"
 }

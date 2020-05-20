@@ -38,7 +38,7 @@ Currently, `svg-font-embedding` only supports simple optimizations.
 Usage: svg-font-embedding INPUT [OUTPUT] [--optimize]
 If the OUTPUT path is not submitted a new file is created with the postfix '-e' in the same directory as the INPUT file. If --optimize is set the postfix '-eo' is used.
 usage: gnu
-    --optimize   If set, simple optimizations are applied to the output
+ -o,--optimize   If set, simple optimizations are applied to the output
                  SVG to reduce the file size.
 ```
 
@@ -49,7 +49,7 @@ Examples:
 svg-font-embedding file.svg 
 
 # embed font into file.svg, optimize the file size and save it under file-eo.svg
-svg-font-embedding file.svg --optimize
+svg-font-embedding file.svg -o
 
 # embed font into file.svg and save it under output.svg
 svg-font-embedding file.svg output.svg
