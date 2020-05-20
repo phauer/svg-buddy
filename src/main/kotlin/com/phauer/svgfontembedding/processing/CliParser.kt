@@ -30,9 +30,7 @@ class CliParser {
         addOption(
             Option.builder()
                 .longOpt(Args.optimize)
-                .desc("If set to 'true', simple optimizations are applied to the output SVG to reduce the file size. Default: 'false'")
-                .type(Boolean::class.java)
-                .hasArg()
+                .desc("If set, simple optimizations are applied to the output SVG to reduce the file size. Default: 'false'")
                 .build()
         )
     }
@@ -45,7 +43,7 @@ class CliParser {
         return Arguments(
             inputFile = validateAndGetExistingFile(inputFile),
             outputFile = if (commandLine.hasOption(Args.output)) commandLine.getOptionValue(Args.output) else null,
-            optimize = if (commandLine.hasOption(Args.optimize)) commandLine.getOptionValue(Args.optimize).toBoolean() else false
+            optimize = commandLine.hasOption(Args.optimize)
         )
     }
 

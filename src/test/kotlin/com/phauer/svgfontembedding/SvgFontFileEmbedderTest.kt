@@ -53,7 +53,7 @@ class SvgFontFileEmbedderTest {
         embedder.embedFont(
             "--input", "$resourcesFolder/drawio/$name/input.svg",
             "--output", "$outputFolder/$name.svg",
-            "--optimize", "true"
+            "--optimize"
         )
     }
 
