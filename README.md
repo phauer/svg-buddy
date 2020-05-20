@@ -4,12 +4,12 @@ Command line tool to embed fonts into an SVG file. This way, you can ensure an a
 
 # Features
 
-There are already other good CLI tools like [svg-embed-font](https://github.com/BTBurke/svg-embed-font) or [nano](https://www.npmjs.com/package/nanosvg) for embedding fonts into SVGs. Nevertheless, I created svg-font-embedding because it uniquely combines the following features at the same time: 
+There are already other good CLI tools like [svg-embed-font](https://github.com/BTBurke/svg-embed-font) or [nano](https://www.npmjs.com/package/nanosvg) for embedding fonts into SVGs. Nevertheless, I created svg-font-embedding because I believe it uniquely combines the following features at the same time: 
 
 - It automatically downloads the required fonts. Only Google Fonts are supported. The fonts are cached locally to avoid downloading them again and again. Moreover, it embeds [WOFF2](https://caniuse.com/#search=woff2) fonts which are compressed and therefore much smaller (up to the factor 10 compared to TTF). 
 - The embedding should always work. See [Reliable Embedding](#reliable-embedding) for details.
 - It can optimize the SVG to reduce the file size. See [Optimizations](#optimizations) for details.
-- Compatible with Draw.io SVGs. No text will be cut off with an ellipsis and no warning about the SVG support will be shown. 
+    - The optimization is compatible with Draw.io's SVGs. No text will be cut off with an ellipsis and no warning about the SVG support will be shown. 
 - It's free.
 - It works offline.
 - No installation or certain environment (like npm) required. Just download the native executable and run it.
@@ -32,6 +32,29 @@ Currently, `svg-font-embedding` only supports simple optimizations.
 - Remove comments.
 - Remove all whitespaces like spaces, tabs and line breaks.
 
+# Usage
+
+```
+Usage: svg-font-embedding INPUT [OUTPUT] [--optimize]
+If the OUTPUT path is not submitted a new file is created with the postfix '-e' in the same directory as the INPUT file. If --optimize is set the postfix '-eo' is used.
+usage: gnu
+    --optimize   If set, simple optimizations are applied to the output
+                 SVG to reduce the file size.
+```
+
+Examples:
+
+```bash
+# embed font into file.svg and save it under file-e.svg
+svg-font-embedding file.svg 
+
+# embed font into file.svg, optimize the file size and save it under file-eo.svg
+svg-font-embedding file.svg --optimize
+
+# embed font into file.svg and save it under output.svg
+svg-font-embedding file.svg output.svg
+```
+
 # Development
 
 ## Running the application in dev mode
@@ -49,4 +72,4 @@ Execute them directly via IntelliJ IDEA or Maven using `./mvnw test`
 - If you have GraalVM installed: `./mvnw package -Pnative`
 - If not, you can use Docker: `./mvnw package -Pnative -Dquarkus.native.container-build=true`
 
-You can then execute your native executable with: `./target/svg-font-embedding`
+You can then execute the native executable with: `./target/svg-font-embedding-1.0.0-runner`

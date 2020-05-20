@@ -51,8 +51,8 @@ class SvgFontFileEmbedderTest {
     fun `ad-hoc test to execute the embedding for a specific file`() {
         val name = "complex-diagram"
         embedder.embedFont(
-            "--input", "$resourcesFolder/drawio/$name/input.svg",
-            "--output", "$outputFolder/$name.svg",
+            "$resourcesFolder/drawio/$name/input.svg",
+            "$outputFolder/$name.svg",
             "--optimize"
         )
     }
@@ -84,20 +84,20 @@ class SvgFontFileEmbedderTest {
     @Test
     fun `errors - return failure on missing input arg`() {
         embedder.embedFont().shouldBeTypeOf<EmbeddingResult.Failure> { failure ->
-            failure.message shouldBe "Missing required option: input"
+            failure.message shouldBe "Missing first argument for the input file."
         }
     }
 
     @Test
     fun `errors - return failure if input file doesnt exist`() {
-        embedder.embedFont("--input", "foooo.svg").shouldBeTypeOf<EmbeddingResult.Failure> { failure ->
+        embedder.embedFont("foooo.svg").shouldBeTypeOf<EmbeddingResult.Failure> { failure ->
             failure.message shouldBe "File foooo.svg not found."
         }
     }
 
     @Test
     fun `errors - font doesnt exist at google fonts `() {
-        embedder.embedFont("--input", "$resourcesFolder/custom/no-google-font/input.svg").shouldBeTypeOf<EmbeddingResult.Failure> { failure ->
+        embedder.embedFont("$resourcesFolder/custom/no-google-font/input.svg").shouldBeTypeOf<EmbeddingResult.Failure> { failure ->
             failure.message shouldContain "courier-new could not be found on Google Fonts"
         }
     }
@@ -105,12 +105,12 @@ class SvgFontFileEmbedderTest {
 
     @Test
     fun `fonts get cached locally and not downloaded on the second run`() {
-        // little tricky because Quarkus doesn't recreate the mock server in the current setup.
+        // little tricky to test because Quarkus doesn't recreate the mock server in the current setup.
         val requestCountBefore = mockServer.requestCount
         repeat(2) {
             embedder.embedFont(
-                "--input", "$resourcesFolder/inkscape/pacifico/input.svg",
-                "--output", "$outputFolder/inkscape/pacifico.svg"
+                "$resourcesFolder/inkscape/pacifico/input.svg",
+                "$outputFolder/inkscape/pacifico.svg"
             )
         }
         mockServer.requestCount shouldBe requestCountBefore + 1
@@ -157,10 +157,10 @@ class SvgFontFileEmbedderTest {
     fun `yed - shape and text - optimize`() = processAndAssertOutputFileContent(testCaseName = "yed/shapes-texts-optimize", expectedDetectedFonts = setOf("Roboto"),optimizeSvg = true)
 
     private fun processAndAssertOutputFileContent(testCaseName: String, expectedDetectedFonts: Set<String>, optimizeSvg: Boolean = false) {
-        val optimizeParams = if (optimizeSvg) arrayOf("--optimize", "true") else arrayOf()
+        val optimizeParams = if (optimizeSvg) arrayOf("--optimize") else arrayOf()
         embedder.embedFont(
-            "--input", "$resourcesFolder/$testCaseName/input.svg",
-            "--output", "$outputFolder/$testCaseName.svg",
+            "$resourcesFolder/$testCaseName/input.svg",
+            "$outputFolder/$testCaseName.svg",
             *optimizeParams
         ).shouldBeTypeOf<EmbeddingResult.Success> { success ->
             success.detectedFonts shouldBe expectedDetectedFonts
@@ -172,7 +172,7 @@ class SvgFontFileEmbedderTest {
     fun `no error on relative path - using default output name`() {
         val tempSvg = Paths.get("input.svg")
         Files.copy(Paths.get("$resourcesFolder/custom/no-text/input.svg"), tempSvg, StandardCopyOption.REPLACE_EXISTING)
-        embedder.embedFont("--input", "input.svg")
+        embedder.embedFont("input.svg")
         Files.delete(tempSvg)
         Files.delete(Paths.get("input-e.svg"))
     }
@@ -181,7 +181,7 @@ class SvgFontFileEmbedderTest {
     fun `no error on relative path - using output parameter`() {
         val tempSvg = Paths.get("input.svg")
         Files.copy(Paths.get("$resourcesFolder/custom/no-text/input.svg"), tempSvg, StandardCopyOption.REPLACE_EXISTING)
-        embedder.embedFont("--input", "input.svg", "--output", "output.svg")
+        embedder.embedFont("input.svg", "output.svg")
         Files.delete(tempSvg)
         Files.delete(Paths.get("output.svg"))
     }

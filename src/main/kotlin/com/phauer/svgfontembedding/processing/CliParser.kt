@@ -14,23 +14,8 @@ class CliParser {
     private val options = Options().apply {
         addOption(
             Option.builder()
-                .longOpt(Args.input)
-                .desc("The input SVG where the font should be embedded")
-                .hasArg()
-                .required()
-                .build()
-        )
-        addOption(
-            Option.builder()
-                .longOpt(Args.output)
-                .desc("The file path of the output SVG. By default, a new file is created with the postfix '-e' in the same directory as the input file.")
-                .hasArg()
-                .build()
-        )
-        addOption(
-            Option.builder()
                 .longOpt(Args.optimize)
-                .desc("If set, simple optimizations are applied to the output SVG to reduce the file size. Default: 'false'")
+                .desc("If set, simple optimizations are applied to the output SVG to reduce the file size.")
                 .build()
         )
     }
@@ -39,15 +24,15 @@ class CliParser {
     fun parseArguments(args: Array<out String>): Arguments {
         val commandLine = DefaultParser().parse(options, args)
 
-        val inputFile = commandLine.getOptionValue(Args.input)
         return Arguments(
-            inputFile = validateAndGetExistingFile(inputFile),
-            outputFile = if (commandLine.hasOption(Args.output)) commandLine.getOptionValue(Args.output) else null,
+            inputFile = validateAndGetExistingFile(commandLine.argList.getOrNull(0)),
+            outputFile = commandLine.argList.getOrNull(1),
             optimize = commandLine.hasOption(Args.optimize)
         )
     }
 
-    private fun validateAndGetExistingFile(inputFile: String): Path {
+    private fun validateAndGetExistingFile(inputFile: String?): Path {
+        inputFile ?: throw CliParserException("Missing first argument for the input file.")
         val path = Path.of(inputFile)
         if (!Files.exists(path)) {
             throw CliParserException("File $inputFile not found.")
@@ -57,6 +42,8 @@ class CliParser {
     }
 
     fun printHelp() {
+        println("Usage: svg-font-embedding INPUT [OUTPUT] [--optimize]")
+        println("If the OUTPUT path is not submitted a new file is created with the postfix '-e' in the same directory as the INPUT file. If --optimize is set the postfix '-eo' is used.")
         HelpFormatter().printHelp("gnu", options)
     }
 }
@@ -70,7 +57,5 @@ data class Arguments(
 )
 
 private object Args {
-    const val input = "input"
-    const val output = "output"
     const val optimize = "optimize"
 }

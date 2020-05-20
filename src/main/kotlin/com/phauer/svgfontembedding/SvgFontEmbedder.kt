@@ -1,5 +1,6 @@
 package com.phauer.svgfontembedding
 
+import com.phauer.svgfontembedding.processing.Arguments
 import com.phauer.svgfontembedding.processing.CliParser
 import com.phauer.svgfontembedding.processing.CliParserException
 import com.phauer.svgfontembedding.processing.FileEmbedder
@@ -30,7 +31,6 @@ class SvgFontEmbedder(
 
     fun embedFont(vararg args: String): EmbeddingResult = try {
         val arguments = cliParser.parseArguments(args)
-        val newFileName = arguments.outputFile ?: arguments.inputFile.toString().replaceFirst(".svg", "-e.svg")
         val inputSvgString = Files.readString(arguments.inputFile, StandardCharsets.UTF_8)
 
         println("Detecting Fonts...")
@@ -41,6 +41,7 @@ class SvgFontEmbedder(
 
         val optimizedSvgString = optimizer.optimizeSvgAndReturnSvgString(arguments, doc)
 
+        val newFileName = getOrCreateOutputFileName(arguments)
         println("Write new SVG to $newFileName...")
         writeSvgToFile(newFileName, optimizedSvgString)
 
@@ -53,6 +54,18 @@ class SvgFontEmbedder(
                 log.error("Embedding Failed", ex)
                 EmbeddingResult.Failure(message = ex.message!!)
             }
+        }
+    }
+
+    private fun getOrCreateOutputFileName(arguments: Arguments): String {
+        if (arguments.outputFile != null) {
+            return arguments.outputFile
+        }
+        val inputFile = arguments.inputFile.toString()
+        if (arguments.optimize) {
+            return inputFile.replaceFirst(".svg", "-eo.svg")
+        } else {
+            return inputFile.replaceFirst(".svg", "-e.svg")
         }
     }
 
