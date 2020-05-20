@@ -70,7 +70,9 @@ class SvgFontEmbedder(
 
     private fun writeSvgToFile(newFileName: String, outputSvgString: String) {
         val newFilePath = Paths.get(newFileName)
-        Files.createDirectories(newFilePath.parent)
+        if (newFilePath.parent != null) {
+            Files.createDirectories(newFilePath.parent)
+        }
         Files.writeString(newFilePath, outputSvgString)
     }
 

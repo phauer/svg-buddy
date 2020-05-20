@@ -15,6 +15,7 @@ import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 import javax.inject.Inject
 
 @QuarkusTest
@@ -165,6 +166,24 @@ class SvgFontFileEmbedderTest {
             success.detectedFonts shouldBe expectedDetectedFonts
             assertEqualContent(actualFile = success.outputFile, expectedFile = "$resourcesFolder/$testCaseName/expected.svg")
         }
+    }
+
+    @Test
+    fun `no error on relative path - using default output name`() {
+        val tempSvg = Paths.get("input.svg")
+        Files.copy(Paths.get("$resourcesFolder/custom/no-text/input.svg"), tempSvg, StandardCopyOption.REPLACE_EXISTING)
+        embedder.embedFont("--input", "input.svg")
+        Files.delete(tempSvg)
+        Files.delete(Paths.get("input-e.svg"))
+    }
+
+    @Test
+    fun `no error on relative path - using output parameter`() {
+        val tempSvg = Paths.get("input.svg")
+        Files.copy(Paths.get("$resourcesFolder/custom/no-text/input.svg"), tempSvg, StandardCopyOption.REPLACE_EXISTING)
+        embedder.embedFont("--input", "input.svg", "--output", "output.svg")
+        Files.delete(tempSvg)
+        Files.delete(Paths.get("output.svg"))
     }
 
     private fun assertEqualContent(actualFile: String, expectedFile: String) {
