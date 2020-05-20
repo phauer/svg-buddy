@@ -12,7 +12,6 @@ There are already other good CLI tools like [svg-embed-font](https://github.com/
     - The optimization is compatible with Draw.io's SVGs. No text will be cut off with an ellipsis and no warning about the SVG support will be shown. 
 - It's free.
 - It works offline.
-- No installation or certain environment (like npm) required. Just download the native executable and run it.
 
 ## Reliable Embedding
 
@@ -31,6 +30,10 @@ Currently, `svg-font-embedding` only supports simple optimizations.
 - Remove empty `g` tags. Adobe Illustrator creates those at the end of an SVG.
 - Remove comments.
 - Remove all whitespaces like spaces, tabs and line breaks.
+
+# System Requirements
+
+Currently, `svg-font-embedding` is only available for Linux. Just download the binary and execute it.
 
 # Usage
 
@@ -67,9 +70,10 @@ svg-font-embedding file.svg output.svg
 
 Execute them directly via IntelliJ IDEA or Maven using `./mvnw test`
 
-## Creating a native executable
+## Creating a Linux Native Executable
 
-- If you have GraalVM installed: `./mvnw package -Pnative`
-- If not, you can use Docker: `./mvnw package -Pnative -Dquarkus.native.container-build=true`
+```
+./mvnw package -Pnative
+```
 
-You can then execute the native executable with: `./target/svg-font-embedding-1.0.0-runner`
+You can then execute the native Linux executable with: `./target/svg-font-embedding`
