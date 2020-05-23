@@ -35,10 +35,12 @@ Currently, `svg-buddy` only supports simple optimizations.
 
 `svg-buddy` downloads the fonts not directly from [Google Fonts](https://fonts.google.com/) but from [google-webfonts-helper](https://google-webfonts-helper.herokuapp.com/) which is a wrapper around Google Fonts providing a better API.
 
-# System Requirements
+# System Requirements and Installation
+
+Go to [releases](https://github.com/phauer/svg-buddy/releases). There are two files available.
 
 - Linux users can use the native executable `svg-buddy`.
-- Windows and Mac users need a Java 11 Runtime (JRE) on their system. Next, they can use the `svg-buddy.jar` to execute the tool.
+- Windows and Mac users need a Java 11 Runtime (JRE) on their system. Next, they can use the `svg-buddy.jar` to execute the tool via the `java` command.
 
 # Usage
 
