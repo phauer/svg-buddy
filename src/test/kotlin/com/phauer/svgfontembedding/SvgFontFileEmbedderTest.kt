@@ -198,6 +198,14 @@ class SvgFontFileEmbedderTest {
     @Test
     fun `ignore-generic-font-family`() = processAndAssertOutputFileContent(testCaseName = "custom/ignore-generic-font-family", expectedDetectedFonts = setOf("Roboto"))
 
+    /**
+     * For now, let's remove the style after the dash to be able to detect the base font correctly. Later, we can improve this feature to download the font with the correct style.
+     * font-family: Roboto-Bold;
+     */
+    @Test
+    fun `ignore-style-in-font`() = processAndAssertOutputFileContent(testCaseName = "custom/font-with-style", expectedDetectedFonts = setOf("Roboto"))
+
+
     private fun assertEqualContent(actualFile: String, expectedFile: String) {
         val actualSvgString = Files.readString(Paths.get(actualFile))
         val expectedSvgString = Files.readString(Paths.get(expectedFile))

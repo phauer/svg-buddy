@@ -38,7 +38,15 @@ class SvgFontDetector{
         fontFamilyValue
             .split(',')
             .map { it.trim(this::isSpaceOrQuotes) }
+            .map { removeStyleAfterDash(it) }
             .filter { !genericFontFamilies.contains(it) }
+
+    /**
+     * let's ignore the style part in the font definition for now and download the regular one.
+     * e.g. OpenSans-Regular, OpenSans-SemiBold Roboto-Light
+     * setOf("light", "lightitalic", "regular", "italic", "semibold", "semibolditalic", "bold", "bolditalic", "extrabold", "extrabolditalic")
+     */
+    private fun removeStyleAfterDash(fontFamilyValue: String) = fontFamilyValue.substringBefore('-')
 
     private fun isSpaceOrQuotes(it: Char) = when (it) {
         ' ', '\'', '"' -> true
