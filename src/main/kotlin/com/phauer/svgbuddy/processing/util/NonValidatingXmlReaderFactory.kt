@@ -1,4 +1,4 @@
-package com.phauer.svgfontembedding.processing.util
+package com.phauer.svgbuddy.processing.util
 
 import org.jdom2.input.sax.XMLReaderJDOMFactory
 import org.jdom2.input.sax.XMLReaders

@@ -1,4 +1,4 @@
-package com.phauer.svgfontembedding
+package com.phauer.svgbuddy
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
@@ -19,7 +19,7 @@ import java.nio.file.StandardCopyOption
 import javax.inject.Inject
 
 @QuarkusTest
-@QuarkusTestResource(GoogleFontsMockServer::class) // remove this to run the tests against the live service
+//@QuarkusTestResource(GoogleFontsMockServer::class) // remove this to run the tests against the live service
 class SvgFontFileEmbedderTest {
     @Inject
     lateinit var embedder: SvgFontEmbedder
@@ -123,7 +123,7 @@ class SvgFontFileEmbedderTest {
     }
 
     @Test
-    fun `inkscape - optimize - remove metadata and non-svg-elemetns`() =
+    fun `inkscape - optimize - remove metadata and non-svg-elements`() =
         processAndAssertOutputFileContent(testCaseName = "inkscape/optimize-no-text", expectedDetectedFonts = setOf(), optimizeSvg = true)
 
     @Test

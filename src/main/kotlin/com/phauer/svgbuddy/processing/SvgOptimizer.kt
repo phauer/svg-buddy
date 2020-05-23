@@ -1,4 +1,4 @@
-package com.phauer.svgfontembedding.processing
+package com.phauer.svgbuddy.processing
 
 import org.jdom2.Comment
 import org.jdom2.Document

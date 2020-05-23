@@ -1,4 +1,4 @@
-package com.phauer.svgfontembedding.processing
+package com.phauer.svgbuddy.processing
 
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
@@ -45,7 +45,7 @@ class CliParser {
     }
 
     fun printHelp() {
-        println("Usage: svg-font-embedding INPUT [OUTPUT] [--optimize]")
+        println("Usage: svg-buddy INPUT [OUTPUT] [--optimize]")
         println("If the OUTPUT path is not submitted a new file is created with the postfix '-e' in the same directory as the INPUT file. If --optimize is set the postfix '-eo' is used.")
         HelpFormatter().printHelp("gnu", options)
     }

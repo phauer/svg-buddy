@@ -1,4 +1,4 @@
-package com.phauer.svgfontembedding.processing
+package com.phauer.svgbuddy.processing
 
 import org.apache.commons.codec.binary.Base64
 import org.jdom2.CDATA

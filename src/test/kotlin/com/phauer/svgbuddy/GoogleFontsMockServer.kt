@@ -1,6 +1,5 @@
-package com.phauer.svgfontembedding
+package com.phauer.svgbuddy
 
-import io.kotest.assertions.fail
 import io.quarkus.test.common.QuarkusTestResourceLifecycleManager
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
@@ -17,7 +16,7 @@ class GoogleFontsMockServer : QuarkusTestResourceLifecycleManager {
             dispatcher = GoogleFontsHelperDispatcher
             start()
         }
-        return mapOf("com.phauer.svgfontembedding.processing.GoogleFontsService/mp-rest/url" to server!!.url("/").toString())
+        return mapOf("com.phauer.svgbuddy.processing.GoogleFontsService/mp-rest/url" to server!!.url("/").toString())
     }
 
     override fun stop() {

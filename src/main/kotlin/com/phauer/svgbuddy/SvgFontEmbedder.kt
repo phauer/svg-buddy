@@ -1,15 +1,15 @@
-package com.phauer.svgfontembedding
+package com.phauer.svgbuddy
 
-import com.phauer.svgfontembedding.processing.Arguments
-import com.phauer.svgfontembedding.processing.CliParser
-import com.phauer.svgfontembedding.processing.CliParserException
-import com.phauer.svgfontembedding.processing.FileEmbedder
-import com.phauer.svgfontembedding.processing.GoogleFontsClient
-import com.phauer.svgfontembedding.processing.GoogleFontsClientException
-import com.phauer.svgfontembedding.processing.GoogleFontsEntry
-import com.phauer.svgfontembedding.processing.SvgFontDetector
-import com.phauer.svgfontembedding.processing.SvgOptimizer
-import com.phauer.svgfontembedding.processing.util.NonValidatingXmlReaderFactory
+import com.phauer.svgbuddy.processing.Arguments
+import com.phauer.svgbuddy.processing.CliParser
+import com.phauer.svgbuddy.processing.CliParserException
+import com.phauer.svgbuddy.processing.FileEmbedder
+import com.phauer.svgbuddy.processing.GoogleFontsClient
+import com.phauer.svgbuddy.processing.GoogleFontsClientException
+import com.phauer.svgbuddy.processing.GoogleFontsEntry
+import com.phauer.svgbuddy.processing.SvgFontDetector
+import com.phauer.svgbuddy.processing.SvgOptimizer
+import com.phauer.svgbuddy.processing.util.NonValidatingXmlReaderFactory
 import org.apache.commons.cli.ParseException
 import org.jboss.logging.Logger
 import org.jdom2.Document

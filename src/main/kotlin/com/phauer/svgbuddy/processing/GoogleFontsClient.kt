@@ -1,4 +1,4 @@
-package com.phauer.svgfontembedding.processing
+package com.phauer.svgbuddy.processing
 
 import net.lingala.zip4j.ZipFile
 import org.eclipse.microprofile.config.inject.ConfigProperty

@@ -1,4 +1,4 @@
-package com.phauer.svgfontembedding
+package com.phauer.svgbuddy
 
 import io.quarkus.runtime.QuarkusApplication
 import io.quarkus.runtime.annotations.QuarkusMain
