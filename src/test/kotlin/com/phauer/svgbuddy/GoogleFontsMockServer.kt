@@ -35,17 +35,19 @@ class GoogleFontsMockServer : QuarkusTestResourceLifecycleManager {
 object GoogleFontsHelperDispatcher : Dispatcher() {
     private val zipBaseFolder = "src/test/resources/font-zips"
     private val robotoZip by lazy { Buffer().readFrom(FileInputStream("$zipBaseFolder/roboto.zip")) }
-    private val robotoMonoZip by lazy { Buffer().readFrom(FileInputStream("$zipBaseFolder/robotoMono.zip")) }
+    private val robotoMonoZip by lazy { Buffer().readFrom(FileInputStream("$zipBaseFolder/roboto-mono.zip")) }
     private val pacificoZip by lazy { Buffer().readFrom(FileInputStream("$zipBaseFolder/pacifico.zip")) }
     private val gochiHandZip by lazy { Buffer().readFrom(FileInputStream("$zipBaseFolder/gochi-hand.zip")) }
 
     override fun dispatch(request: RecordedRequest): MockResponse {
         val path = request.path!!
+        println(path)
         return when {
-            path.contains("api/fonts/roboto") -> createMockResponse(payload = robotoZip)
-            path.contains("api/fonts/roboto-mono") -> createMockResponse(payload = robotoMonoZip)
-            path.contains("api/fonts/pacifico") -> createMockResponse(payload = pacificoZip)
-            path.contains("api/fonts/gochi-hand") -> createMockResponse(payload = gochiHandZip)
+            // add "?" to avoid mixing up roboto and roboto-mono
+            path.contains("api/fonts/roboto?") -> createMockResponse(payload = robotoZip)
+            path.contains("api/fonts/roboto-mono?") -> createMockResponse(payload = robotoMonoZip)
+            path.contains("api/fonts/pacifico?") -> createMockResponse(payload = pacificoZip)
+            path.contains("api/fonts/gochi-hand?") -> createMockResponse(payload = gochiHandZip)
             else -> MockResponse().setResponseCode(404)
         }
     }
