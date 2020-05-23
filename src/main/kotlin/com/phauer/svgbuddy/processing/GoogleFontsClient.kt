@@ -27,8 +27,8 @@ class GoogleFontsClient(
         fontCacheDir
     }
 
-    fun downloadFonts(detectedFonts: Set<String>): Map<String, List<GoogleFontsEntry>> {
-        return detectedFonts.associateWith { detectedFont ->
+    fun downloadFonts(detectedFonts: Set<String>): List<GoogleFontsEntry> {
+        return detectedFonts.flatMap { detectedFont ->
             val fontZip = getFontZip(detectedFont)
             val zipFile = ZipFile(fontZip.toFile())
             zipFile.fileHeaders

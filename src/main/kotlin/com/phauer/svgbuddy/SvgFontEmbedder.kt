@@ -75,9 +75,8 @@ class SvgFontEmbedder(
         } else {
             println("Downloading Fonts $detectedFonts...")
             val googleFonts = googleFontsClient.downloadFonts(detectedFonts)
-            val filteredGoogleFonts = selectRegularFontFile(googleFonts)
-            println("Embedding Google Fonts ${filteredGoogleFonts.map(GoogleFontsEntry::fileName)} into SVG...")
-            fileEmbedder.embedFontsIntoSvg(svg, filteredGoogleFonts)
+            println("Embedding Google Fonts ${googleFonts.map(GoogleFontsEntry::fileName)} into SVG...")
+            fileEmbedder.embedFontsIntoSvg(svg, googleFonts)
         }
     }
 
@@ -87,12 +86,6 @@ class SvgFontEmbedder(
             Files.createDirectories(newFilePath.parent)
         }
         Files.writeString(newFilePath, outputSvgString)
-    }
-
-    private fun selectRegularFontFile(googleFonts: Map<String, List<GoogleFontsEntry>>): Collection<GoogleFontsEntry> {
-        return googleFonts.mapValues { entry ->
-            entry.value.first { it.fileName.contains("regular", ignoreCase = true) }
-        }.values
     }
 
     fun printHelp() {
