@@ -77,7 +77,7 @@ class GoogleFontsClientException(message: String, ex: Exception) : RuntimeExcept
 interface GoogleFontsService {
     // UI https://google-webfonts-helper.herokuapp.com/fonts/pacifico?subsets=latin
     // Api Docs: https://github.com/majodev/google-webfonts-helper#rest-api
-    // example: https://google-webfonts-helper.herokuapp.com/api/fonts/pacifico?download=zip&subsets=latin&variants=regular
+    // example: https://google-webfonts-helper.herokuapp.com/api/fonts/pacifico?download=zip&subsets=latin&variants=regular&formats=woff2
     @GET
     @UrlPath("/api/fonts/{font}")
     @Produces("application/zip")
@@ -85,7 +85,8 @@ interface GoogleFontsService {
         @PathParam("font") font: String,
         @QueryParam("download") download: String = "zip",
         @QueryParam("subsets") subsets: String = "latin",
-        @QueryParam("variants") variants: String = "regular"
+        @QueryParam("variants") variants: String = "regular",
+        @QueryParam("formats") formats: String = "woff2"
     ): ByteArray
 }
 
