@@ -102,6 +102,12 @@ class SvgFontFileEmbedderTest {
         }
     }
 
+    @Test
+    fun `display error if the input file doesnt end with svg`() {
+        embedder.embedFont("$resourcesFolder/custom/no-svg-file/text.md").shouldBeTypeOf<EmbeddingResult.Failure> { failure ->
+            failure.message shouldContain "is not an SVG file"
+        }
+    }
 
     @Test
     fun `fonts get cached locally and not downloaded on the second run`() {

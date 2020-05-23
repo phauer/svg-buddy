@@ -37,6 +37,9 @@ class CliParser {
         if (!Files.exists(path)) {
             throw CliParserException("File $inputFile not found.")
         }
+        if (!inputFile.endsWith(".svg", ignoreCase = true)) {
+            throw CliParserException("The file $inputFile is not an SVG file.")
+        }
         return path
 
     }
