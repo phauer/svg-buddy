@@ -156,18 +156,6 @@ class SvgFontFileEmbedderTest {
     @Test
     fun `yed - shape and text - optimize`() = processAndAssertOutputFileContent(testCaseName = "yed/shapes-texts-optimize", expectedDetectedFonts = setOf("Roboto"),optimizeSvg = true)
 
-    private fun processAndAssertOutputFileContent(testCaseName: String, expectedDetectedFonts: Set<String>, optimizeSvg: Boolean = false) {
-        val optimizeParams = if (optimizeSvg) arrayOf("--optimize") else arrayOf()
-        embedder.embedFont(
-            "$resourcesFolder/$testCaseName/input.svg",
-            "$outputFolder/$testCaseName.svg",
-            *optimizeParams
-        ).shouldBeTypeOf<EmbeddingResult.Success> { success ->
-            success.detectedFonts shouldBe expectedDetectedFonts
-            assertEqualContent(actualFile = success.outputFile, expectedFile = "$resourcesFolder/$testCaseName/expected.svg")
-        }
-    }
-
     @Test
     fun `no error on relative path - using default output name`() {
         val tempSvg = Paths.get("input.svg")
@@ -196,15 +184,26 @@ class SvgFontFileEmbedderTest {
      * font-family: Roboto, sans-serif;
      */
     @Test
-    fun `ignore-generic-font-family`() = processAndAssertOutputFileContent(testCaseName = "custom/ignore-generic-font-family", expectedDetectedFonts = setOf("Roboto"))
+    fun `ignore generic font family`() = processAndAssertOutputFileContent(testCaseName = "custom/ignore-generic-font-family", expectedDetectedFonts = setOf("Roboto"))
 
     /**
      * For now, let's remove the style after the dash to be able to detect the base font correctly. Later, we can improve this feature to download the font with the correct style.
      * font-family: Roboto-Bold;
      */
     @Test
-    fun `ignore-style-in-font`() = processAndAssertOutputFileContent(testCaseName = "custom/font-with-style", expectedDetectedFonts = setOf("Roboto"))
+    fun `ignore style in font`() = processAndAssertOutputFileContent(testCaseName = "custom/font-with-style", expectedDetectedFonts = setOf("Roboto"))
 
+    private fun processAndAssertOutputFileContent(testCaseName: String, expectedDetectedFonts: Set<String>, optimizeSvg: Boolean = false) {
+        val optimizeParams = if (optimizeSvg) arrayOf("--optimize") else arrayOf()
+        embedder.embedFont(
+            "$resourcesFolder/$testCaseName/input.svg",
+            "$outputFolder/$testCaseName.svg",
+            *optimizeParams
+        ).shouldBeTypeOf<EmbeddingResult.Success> { success ->
+            success.detectedFonts shouldBe expectedDetectedFonts
+            assertEqualContent(actualFile = success.outputFile, expectedFile = "$resourcesFolder/$testCaseName/expected.svg")
+        }
+    }
 
     private fun assertEqualContent(actualFile: String, expectedFile: String) {
         val actualSvgString = Files.readString(Paths.get(actualFile))
