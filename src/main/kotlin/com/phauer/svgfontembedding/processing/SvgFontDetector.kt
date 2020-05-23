@@ -8,6 +8,8 @@ class SvgFontDetector{
 
     // TODO switch to DOM-based detection instead of regex. we have to parse the SVG anyway.
 
+    private val genericFontFamilies = setOf("serif", "sans-serif", "cursive", "fantasy", "monospace")
+
     // test with https://regex101.com/
     fun detectUsedFontsInSvg(inputSvgString: String): Set<String> {
         // most editors use CSS in a style attribute (inkscape, draw.io): style="font-family:'Roboto';"
@@ -22,17 +24,21 @@ class SvgFontDetector{
         val matcher = pattern.matcher(inputSvgString)
         val fonts = mutableListOf<String>()
         while (matcher.find()) {
-            fonts.addAll(parseOneOrMultipleFonts(matcher.group(1)))
+            fonts.addAll(extractOneOrMultipleFonts(matcher.group(1)))
         }
         return fonts.toSet()
     }
 
-    /** font-size: Roboto Mono, Pacifico */
-    private fun parseOneOrMultipleFonts(fontFamilyValue: String): Set<String> =
+    /**
+     * font-size: Roboto;
+     * font-size: Roboto, sans-serif;
+     * font-size: Roboto Mono, Pacifico;
+     */
+    private fun extractOneOrMultipleFonts(fontFamilyValue: String): List<String> =
         fontFamilyValue
             .split(',')
             .map { it.trim(this::isSpaceOrQuotes) }
-            .toSet()
+            .filter { !genericFontFamilies.contains(it) }
 
     private fun isSpaceOrQuotes(it: Char) = when (it) {
         ' ', '\'', '"' -> true
