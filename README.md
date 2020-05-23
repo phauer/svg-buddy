@@ -31,6 +31,10 @@ Currently, `svg-font-embedding` only supports simple optimizations.
 - Remove comments.
 - Remove all whitespaces like spaces, tabs and line breaks.
 
+## Font Source
+
+`svg-font-embedding` downloads the fonts not directly from [Google Fonts](https://fonts.google.com/) but from [google-webfonts-helper](https://google-webfonts-helper.herokuapp.com/) which is a wrapper around Google Fonts providing a better API.
+
 # System Requirements
 
 - Linux users can use the native executable `svg-font-embedding`.
