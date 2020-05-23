@@ -19,7 +19,7 @@ import java.nio.file.StandardCopyOption
 import javax.inject.Inject
 
 @QuarkusTest
-@QuarkusTestResource(GoogleFontsMockServer::class)
+@QuarkusTestResource(GoogleFontsMockServer::class) // remove this to run the tests against the live service
 class SvgFontFileEmbedderTest {
     @Inject
     lateinit var embedder: SvgFontEmbedder

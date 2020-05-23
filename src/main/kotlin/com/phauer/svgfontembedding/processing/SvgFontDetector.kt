@@ -38,13 +38,13 @@ class SvgFontDetector{
         fontFamilyValue
             .split(',')
             .map { it.trim(this::isSpaceOrQuotes) }
-            .map { removeStyleAfterDash(it) }
             .filter { !genericFontFamilies.contains(it) }
+            .map { removeStyleAfterDash(it) } // first filter generic families like "sans-serif". then remove the styles by the dash "-".
 
     /**
      * let's ignore the style part in the font definition for now and download the regular one.
-     * e.g. OpenSans-Regular, OpenSans-SemiBold Roboto-Light
-     * setOf("light", "lightitalic", "regular", "italic", "semibold", "semibolditalic", "bold", "bolditalic", "extrabold", "extrabolditalic")
+     * e.g. OpenSans-Regular, OpenSans-SemiBold, Roboto-Light
+     * styles: "light", "lightitalic", "regular", "italic", "semibold", "semibolditalic", "bold", "bolditalic", "extrabold", "extrabolditalic"
      */
     private fun removeStyleAfterDash(fontFamilyValue: String) = fontFamilyValue.substringBefore('-')
 
