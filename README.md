@@ -4,7 +4,7 @@ Command line tool to embed fonts into an SVG file. This way, you can ensure an a
 
 # Features
 
-There are already other good CLI tools like [svg-embed-font](https://github.com/BTBurke/svg-embed-font) or [nano](https://www.npmjs.com/package/nanosvg) for embedding fonts into SVGs. Nevertheless, I created svg-font-embedding because I believe it uniquely combines the following features at the same time: 
+There are already other good CLI tools like [svg-embed-font](https://github.com/BTBurke/svg-embed-font) or [nano](https://www.npmjs.com/package/nanosvg) for embedding fonts into SVGs. Nevertheless, I created `svg-font-embedding` because I believe it uniquely combines the following features at the same time: 
 
 - It automatically downloads the required fonts. Only Google Fonts are supported. The fonts are cached locally to avoid downloading them again and again. Moreover, it embeds [WOFF2](https://caniuse.com/#search=woff2) fonts which are compressed and therefore much smaller (up to the factor 10 compared to TTF). 
 - The embedding should always work. See [Reliable Embedding](#reliable-embedding) for details.
