@@ -22,10 +22,17 @@ class SvgFontDetector{
         val matcher = pattern.matcher(inputSvgString)
         val fonts = mutableListOf<String>()
         while (matcher.find()) {
-            fonts.add(matcher.group(1).trim { isSpaceOrQuotes(it) })
+            fonts.addAll(parseOneOrMultipleFonts(matcher.group(1)))
         }
         return fonts.toSet()
     }
+
+    /** font-size: Roboto Mono, Pacifico */
+    private fun parseOneOrMultipleFonts(fontFamilyValue: String): Set<String> =
+        fontFamilyValue
+            .split(',')
+            .map { it.trim(this::isSpaceOrQuotes) }
+            .toSet()
 
     private fun isSpaceOrQuotes(it: Char) = when (it) {
         ' ', '\'', '"' -> true

@@ -186,6 +186,13 @@ class SvgFontFileEmbedderTest {
         Files.delete(Paths.get("output.svg"))
     }
 
+    /**
+     * font-size: Pacifico, Gochi Hand
+     */
+    @Test
+    fun `two fonts in one definition`() = processAndAssertOutputFileContent(testCaseName = "custom/two-fonts-in-one-def", expectedDetectedFonts = setOf("Pacifico", "Gochi Hand"))
+
+
     private fun assertEqualContent(actualFile: String, expectedFile: String) {
         val actualSvgString = Files.readString(Paths.get(actualFile))
         val expectedSvgString = Files.readString(Paths.get(expectedFile))
