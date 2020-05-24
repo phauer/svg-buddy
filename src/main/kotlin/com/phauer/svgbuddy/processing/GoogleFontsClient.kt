@@ -19,7 +19,7 @@ import javax.ws.rs.Path as UrlPath
 @ApplicationScoped
 class GoogleFontsClient(
     @RestClient private val service: GoogleFontsService,
-    @ConfigProperty(name = "fontDownloadDirectory") fontDownloadDirectory: String
+    @ConfigProperty(name = "svgbuddy.fontDownloadDirectory") fontDownloadDirectory: String
 ) {
     private val fontCacheDir: Path = fontDownloadDirectory.let {
         val fontCacheDir = Paths.get(it.replaceFirst("~", System.getProperty("user.home")))

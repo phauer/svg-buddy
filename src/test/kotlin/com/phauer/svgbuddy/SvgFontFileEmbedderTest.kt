@@ -25,7 +25,7 @@ class SvgFontFileEmbedderTest {
     lateinit var embedder: SvgFontEmbedder
 
     @Inject
-    @ConfigProperty(name = "fontDownloadDirectory")
+    @ConfigProperty(name = "svgbuddy.fontDownloadDirectory")
     lateinit var fontDownloadDirectory: String
     lateinit var mockServer: MockWebServer
 

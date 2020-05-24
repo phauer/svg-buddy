@@ -41,7 +41,6 @@ object GoogleFontsHelperDispatcher : Dispatcher() {
 
     override fun dispatch(request: RecordedRequest): MockResponse {
         val path = request.path!!
-        println(path)
         return when {
             // add "?" to avoid mixing up roboto and roboto-mono
             path.contains("api/fonts/roboto?") -> createMockResponse(payload = robotoZip)

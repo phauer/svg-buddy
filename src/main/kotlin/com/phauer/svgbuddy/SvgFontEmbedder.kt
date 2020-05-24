@@ -11,6 +11,7 @@ import com.phauer.svgbuddy.processing.SvgFontDetector
 import com.phauer.svgbuddy.processing.optimizing.SvgOptimizer
 import com.phauer.svgbuddy.processing.util.NonValidatingXmlReaderFactory
 import org.apache.commons.cli.ParseException
+import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.jboss.logging.Logger
 import org.jdom2.Document
 import org.jdom2.input.SAXBuilder
@@ -25,11 +26,13 @@ class SvgFontEmbedder(
     private val svgFontDetector: SvgFontDetector,
     private val googleFontsClient: GoogleFontsClient,
     private val fileEmbedder: FileEmbedder,
-    private val optimizer: SvgOptimizer
+    private val optimizer: SvgOptimizer,
+    @ConfigProperty(name = "svgbuddy.version") private val version: String
 ) {
     private val log: Logger = Logger.getLogger(this::class.java)
 
     fun embedFont(vararg args: String): EmbeddingResult = try {
+        println("svg-buddy $version")
         val arguments = cliParser.parseArguments(args)
         val inputSvgString = Files.readString(arguments.inputFile, StandardCharsets.UTF_8)
 
