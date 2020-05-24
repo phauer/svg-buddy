@@ -1,21 +1,23 @@
 package com.phauer.svgbuddy.processing
 
+import com.phauer.svgbuddy.processing.util.Namespaces
+import com.phauer.svgbuddy.processing.util.Tags
 import org.apache.commons.codec.binary.Base64
 import org.jdom2.CDATA
 import org.jdom2.Document
 import org.jdom2.Element
 import org.jdom2.Namespace
+import org.jdom2.Text
 import javax.enterprise.context.ApplicationScoped
 
 
 @ApplicationScoped
 class FileEmbedder {
-    private val svgNamespace = Namespace.getNamespace("", "http://www.w3.org/2000/svg")
 
     fun embedFontsIntoSvg(svg: Document, fonts: Collection<GoogleFontsEntry>) {
-        val defsTag: Element? = svg.rootElement.getChild(Tags.defs, svgNamespace)
+        val defsTag: Element? = svg.rootElement.getChild(Tags.defs, Namespaces.defaultSvg)
         if (defsTag == null) {
-            val newDefsTag = Element(Tags.defs, svgNamespace)
+            val newDefsTag = Element(Tags.defs, Namespaces.defaultSvg)
             newDefsTag.addContent(createStyleTagWithFont(fonts))
             svg.rootElement.addContent(0, newDefsTag)
         } else {
@@ -34,15 +36,10 @@ class FileEmbedder {
             }
         """.trimIndent()
         }
-        val styleTag = Element(Tags.style, svgNamespace)
+        val styleTag = Element(Tags.style, Namespaces.defaultSvg)
         styleTag.setAttribute("type", "text/css")
         styleTag.addContent(CDATA(css))
         return styleTag
     }
 }
 
-object Tags {
-    const val defs = "defs"
-    const val style = "style"
-    const val metadata = "metadata"
-}

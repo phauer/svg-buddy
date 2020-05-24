@@ -1,5 +1,8 @@
-package com.phauer.svgbuddy.processing
+package com.phauer.svgbuddy.processing.optimizing
 
+import com.phauer.svgbuddy.processing.Arguments
+import com.phauer.svgbuddy.processing.util.NamespaceUris
+import com.phauer.svgbuddy.processing.util.Tags
 import org.jdom2.Comment
 import org.jdom2.Document
 import org.jdom2.Element
@@ -11,7 +14,10 @@ import javax.enterprise.context.ApplicationScoped
 @ApplicationScoped
 class SvgOptimizer {
 
-    private val ALLOWED_NAMESPACES = setOf(NamespaceUris.SVG, NamespaceUris.XHTML)
+    private val ALLOWED_NAMESPACES = setOf(
+        NamespaceUris.SVG,
+        NamespaceUris.XHTML
+    )
 
     fun optimizeSvgAndReturnSvgString(arguments: Arguments, doc: Document): String = if (arguments.optimize) {
         println("Optimize SVG...")
@@ -21,6 +27,7 @@ class SvgOptimizer {
         removeMetaData(svgTag)
         removeContentAttribute(svgTag)
         cleanTagsRecursively(svgTag)
+        StyleValueReplacer().replaceStyleValuesWithCssClass(svgTag)
         XMLOutputter(Format.getCompactFormat()).outputString(doc)
     } else {
         XMLOutputter(Format.getPrettyFormat()).outputString(doc)
@@ -28,13 +35,13 @@ class SvgOptimizer {
 
     private fun removeChildComments(parent: Element) {
         parent.content
-            .filter { tag -> tag is Comment }
+            .filterIsInstance<Comment>()
             .forEach { tag -> parent.removeContent(tag) }
     }
 
     private fun removeChildComments(doc: Document) {
         doc.content
-            .filter { tag -> tag is Comment }
+            .filterIsInstance<Comment>()
             .forEach { tag -> doc.removeContent(tag) }
     }
 
@@ -88,12 +95,3 @@ class SvgOptimizer {
 
 }
 
-/** mind to match also URI without the tailing slash */
-object NamespaceUris {
-    const val SVG = "http://www.w3.org/2000/svg"
-
-    /**
-     * Draw.io puts the actual text in `<div xmlns="http://www.w3.org/1999/xhtml">`. So we have to prevent them.
-     */
-    const val XHTML = "http://www.w3.org/1999/xhtml"
-}

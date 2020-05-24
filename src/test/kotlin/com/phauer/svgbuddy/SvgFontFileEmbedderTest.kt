@@ -144,7 +144,7 @@ class SvgFontFileEmbedderTest {
     fun `drawio - complex diagram`() = processAndAssertOutputFileContent(testCaseName = "drawio/complex-diagram", expectedDetectedFonts = setOf("Roboto"), optimizeSvg = false)
 
     @Test
-    fun `drawio - complex diagram - optimize`() = processAndAssertOutputFileContent(testCaseName = "drawio/optimize-complex-diagram", expectedDetectedFonts = setOf("Roboto"), optimizeSvg = true)
+    fun `drawio - complex diagram - optimize`() = processAndAssertOutputFileContent(testCaseName = "drawio/complex-diagram-optimize", expectedDetectedFonts = setOf("Roboto"), optimizeSvg = true)
 
     @Test
     fun `inkscape - complex diagram`() = processAndAssertOutputFileContent(testCaseName = "inkscape/complex-diagram", expectedDetectedFonts = setOf("Roboto Mono", "Roboto"), optimizeSvg = false)
@@ -198,6 +198,9 @@ class SvgFontFileEmbedderTest {
      */
     @Test
     fun `ignore style in font`() = processAndAssertOutputFileContent(testCaseName = "custom/font-with-style", expectedDetectedFonts = setOf("Roboto"))
+
+    @Test
+    fun `optimize - remove style values and use reusable css classes instead`() = processAndAssertOutputFileContent(testCaseName = "custom/optimize-duplicate-style-values-to-css-class", expectedDetectedFonts = setOf(), optimizeSvg = true)
 
     private fun processAndAssertOutputFileContent(testCaseName: String, expectedDetectedFonts: Set<String>, optimizeSvg: Boolean = false) {
         val optimizeParams = if (optimizeSvg) arrayOf("--optimize") else arrayOf()

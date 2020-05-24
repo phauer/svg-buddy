@@ -8,7 +8,7 @@ import com.phauer.svgbuddy.processing.GoogleFontsClient
 import com.phauer.svgbuddy.processing.GoogleFontsClientException
 import com.phauer.svgbuddy.processing.GoogleFontsEntry
 import com.phauer.svgbuddy.processing.SvgFontDetector
-import com.phauer.svgbuddy.processing.SvgOptimizer
+import com.phauer.svgbuddy.processing.optimizing.SvgOptimizer
 import com.phauer.svgbuddy.processing.util.NonValidatingXmlReaderFactory
 import org.apache.commons.cli.ParseException
 import org.jboss.logging.Logger

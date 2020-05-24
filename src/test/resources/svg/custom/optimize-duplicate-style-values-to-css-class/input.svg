@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+    <text x="0" y="50" style="font-size: 30px; fill: blue; text-align: center; white-space: normal;">Text</text>
+    <text x="0" y="100" style="font-size: 30px; fill: blue; text-align: center; white-space: normal;">Text</text>
+    <text x="100" y="100" style="font-size: 30px; fill: blue; text-align: center; white-space: normal;">Text</text>
+    <text x="0" y="150" style="font-size: 30px; fill: green; text-align: center; white-space: normal;" class="alreadyThere">Text</text>
+    <text x="0" y="200" style="font-size: 30px; fill: green; text-align: center; white-space: normal;" class="alreadyThere">Text</text>
+    <text x="0" y="250" style="font-size: 30px; fill: red; text-align: center; white-space: normal;">Text</text>
+    <text x="0" y="300">Text</text>
+</svg>
