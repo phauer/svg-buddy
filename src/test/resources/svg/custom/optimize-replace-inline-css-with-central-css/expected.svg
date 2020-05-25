@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+    <style type="text/css"><![CDATA[
+        .a {font-size: 30px;}
+        .b {fill: blue;}
+        .c {text-align: center;}
+        .d {white-space: normal;}
+        .e {fill: green;}
+        .f {fill: red;}
+    ]]></style>
+    <text x="0" y="50" class="a b c d">Text</text>
+    <text x="0" y="100" class="a b c d">Text</text>
+    <text x="100" y="100" class="a b c d">Text</text>
+    <text x="0" y="150" class="alreadyThere a e c d">Text</text>
+    <text x="0" y="200" class="alreadyThere a e c d">Text</text>
+    <text x="0" y="250" class="a f c d">Text</text>
+    <text x="0" y="300">Text</text>
+</svg>

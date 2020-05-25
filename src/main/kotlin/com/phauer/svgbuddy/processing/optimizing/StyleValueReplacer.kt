@@ -8,8 +8,8 @@ import org.jdom2.Element
 
 class StyleValueReplacer {
 
-    private val styleValueToCssClass = mutableMapOf<Style, CssName>()
-    private var classCounter = 0
+    private val cssPropToClass = mutableMapOf<PropertyAndValue, CssName>()
+    private var nameGenerator = ShortCssClassNameGenerator()
 
     fun replaceStyleValuesWithCssClass(svgTag: Element) {
         removeStyleValuesAndPutItToMapRecursively(svgTag)
@@ -17,9 +17,9 @@ class StyleValueReplacer {
     }
 
     private fun insertStylesAsCssDefinitions(svgTag: Element) {
-        if (styleValueToCssClass.isNotEmpty()) {
-            val cssClassDefinitions = styleValueToCssClass
-                .map { (style, cssName) -> ".${cssName.name}{${style.cssValue}}" }
+        if (cssPropToClass.isNotEmpty()) {
+            val cssClassDefinitions = cssPropToClass
+                .map { (style, cssName) -> ".${cssName.name}{${style.line}}" }
                 .joinToString(separator = "")
             val styleTag = Element(Tags.style, Namespaces.defaultSvg)
             styleTag.setAttribute("type", "text/css")
@@ -31,28 +31,25 @@ class StyleValueReplacer {
     private fun removeStyleValuesAndPutItToMapRecursively(parent: Element) {
         parent.children.forEach { tag ->
             val styleValue: String? = tag.getAttributeValue(Attributes.style)
-            if (styleValue != null) {
-                val style = Style(styleValue)
-                styleValueToCssClass.computeIfAbsent(style) { CssName("c${classCounter++}") }
-                tag.removeAttribute(Attributes.style)
-                setCssClassAttribute(style, tag)
+            styleValue
+                ?.split(';')
+                ?.filter { it.isNotBlank() }
+                ?.map { PropertyAndValue("${it.trim().replaceFirst(": ", ":")};") }
+                ?.forEach { propWithValue ->
+                    val className = cssPropToClass.computeIfAbsent(propWithValue) { CssName(nameGenerator.getNextClassName()) }
+                    tag.removeAttribute(Attributes.style)
+                    addToCssClassAttribute(className, tag)
             }
             removeStyleValuesAndPutItToMapRecursively(tag)
         }
     }
 
-    private fun setCssClassAttribute(style: Style, tag: Element) {
-        val newClassValue = styleValueToCssClass[style]!!.name
+    private fun addToCssClassAttribute(newClassValue: CssName, tag: Element) {
         val oldValue: String? = tag.getAttributeValue(Attributes.class_)
-        val newValue = if (oldValue == null) {
-            newClassValue
-        } else {
-            "$oldValue $newClassValue"
-        }
+        val newValue = if (oldValue == null) newClassValue.name else "$oldValue ${newClassValue.name}"
         tag.setAttribute(Attributes.class_, newValue)
     }
-
 }
 
 data class CssName (val name: String)
-data class Style (val cssValue: String)
+data class PropertyAndValue (val line: String)

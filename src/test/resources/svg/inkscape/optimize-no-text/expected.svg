@@ -6,7 +6,7 @@
         viewBox="0 0 210 297"
         height="297mm"
         width="210mm">
-  <style type="text/css"><![CDATA[.c0{fill:#800000;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}]]></style>
+  <style type="text/css"><![CDATA[.a{fill:#800000;}.b{stroke-width:2.5;}.c{stroke-linecap:round;}.d{stroke-linejoin:round;}]]></style>
   <defs
           id="defs2"/>
   <g
@@ -17,6 +17,6 @@
             height="23.584015"
             width="38.502861"
             id="rect833"
-            class="c0"/>
+            class="a b c d"/>
   </g>
 </svg>

@@ -200,7 +200,7 @@ class SvgFontFileEmbedderTest {
     fun `ignore style in font`() = processAndAssertOutputFileContent(testCaseName = "custom/font-with-style", expectedDetectedFonts = setOf("Roboto"))
 
     @Test
-    fun `optimize - remove style values and use reusable css classes instead`() = processAndAssertOutputFileContent(testCaseName = "custom/optimize-duplicate-style-values-to-css-class", expectedDetectedFonts = setOf(), optimizeSvg = true)
+    fun `optimize - remove style values and use reusable css classes instead`() = processAndAssertOutputFileContent(testCaseName = "custom/optimize-replace-inline-css-with-central-css", expectedDetectedFonts = setOf(), optimizeSvg = true)
 
     private fun processAndAssertOutputFileContent(testCaseName: String, expectedDetectedFonts: Set<String>, optimizeSvg: Boolean = false) {
         val optimizeParams = if (optimizeSvg) arrayOf("--optimize") else arrayOf()
