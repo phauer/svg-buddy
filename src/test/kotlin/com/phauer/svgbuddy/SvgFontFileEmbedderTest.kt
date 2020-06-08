@@ -208,6 +208,14 @@ class SvgFontFileEmbedderTest {
     @Test
     fun `drawio - imported svg files should not be removed`() = processAndAssertOutputFileContent(testCaseName = "drawio/imported-svg", expectedDetectedFonts = setOf(), optimizeSvg = true)
 
+
+    /**
+     * yEd imports an external svg file with a strange attribute `<svg font-family="&quot;Arial&quot;,&quot;Helvetica&quot;,sans-serif">`. ignore this.
+     */
+    @Test
+    fun `yed - ignore invalid font definition`() = processAndAssertOutputFileContent(testCaseName = "yed/ignore-invalid-font-family", expectedDetectedFonts = setOf("Roboto"), optimizeSvg = false)
+
+
     private fun processAndAssertOutputFileContent(testCaseName: String, expectedDetectedFonts: Set<String>, optimizeSvg: Boolean = false) {
         val optimizeParams = if (optimizeSvg) arrayOf("--optimize") else arrayOf()
         embedder.embedFont(

@@ -17,6 +17,7 @@ class SvgFontDetector{
         // but some use the font-family attribute (yEd): font-family="'Roboto'"
         val fonts2 = detectusedFontsWithRegex(inputSvgString, Pattern.compile("""font-family="(.*?)""""))
             .filter { it != "Dialog" } // yEd places a font-family="'Dialog'" in the <svg> tag even if there are only other Fonts used.
+            .filter { !it.startsWith("&quot;")} // yEd uses a <svg font-family="&quot;Arial&quot;,&quot;Helvetica&quot;,sans-serif"> when importing external svg files and there is no way to control this in yEd.
         return fonts1 + fonts2
     }
 
