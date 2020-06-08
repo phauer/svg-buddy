@@ -14,10 +14,7 @@ import javax.enterprise.context.ApplicationScoped
 @ApplicationScoped
 class SvgOptimizer {
 
-    private val ALLOWED_NAMESPACES = setOf(
-        NamespaceUris.SVG,
-        NamespaceUris.XHTML
-    )
+    private val ALLOWED_NAMESPACES = setOf(NamespaceUris.SVG, NamespaceUris.XHTML, NamespaceUris.XLINK)
 
     fun optimizeSvgAndReturnSvgString(arguments: Arguments, doc: Document): String = if (arguments.optimize) {
         println("Optimize SVG...")

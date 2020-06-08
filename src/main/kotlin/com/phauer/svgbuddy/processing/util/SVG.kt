@@ -21,6 +21,11 @@ object NamespaceUris {
      * Draw.io puts the actual text in `<div xmlns="http://www.w3.org/1999/xhtml">`. So we have to prevent them.
      */
     const val XHTML = "http://www.w3.org/1999/xhtml"
+
+    /**
+     * Draw.io puts imported (svg) files as base64 in an xlink:href attribute like `<image xlink:href="data:image/svg+xml;base64,PHN2Z..."/>`. So we have to prevent them.
+     */
+    const val XLINK = "http://www.w3.org/1999/xlink"
 }
 
 object Namespaces {

@@ -26,7 +26,7 @@ The font embedding should always work as `svg-buddy` relies on a properly parsed
 Currently, `svg-buddy` only supports simple optimizations.
 
 - Remove the meta data that some editors write in the svg (like Inkscape's `metadata` tag or Draw.io's `content` attribute).
-- Remove all tags, attributes and namespace declarations that don't belong to the SVG namespace.
+- Remove all tags, attributes and namespace declarations that don't belong to the SVG namespace. The only exceptions are the namespaces for `xhtml` and `xlink` since Draw.io uses them for content that can't be removed.
 - Most editors heavily generate inline CSS in `style` attributes. Usually they contain the same large values again and again. `svg-buddy` removes these redundant `style` values and replace them with reusable CSS rules in the head. These rules get referenced via the `class` attribute. 
 - Remove empty `g` tags. Adobe Illustrator creates those at the end of an SVG.
 - Remove comments.
