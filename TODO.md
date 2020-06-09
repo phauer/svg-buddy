@@ -4,7 +4,10 @@
 
 ## Prio 2
 
-- Use parameterized tests when Quarkus supports this with 1.5.0
+- Update to Quarkus 1.5.0.
+    - Now, parameterized tests are supported.
+- Try Picocli instead of apache cli. Quarkus 1.5.0 ships with support for picocli. [details](https://quarkify.net/command-line-tools-with-quarkus-and-picocli/) or [here](https://quarkus.io/guides/picocli)
+- Create binary for mac os x. see teaser [here](https://quarkify.net/command-line-tools-with-quarkus-and-picocli/) or [here](https://github.com/quarkusio/quarkus/blob/master/docs/src/main/asciidoc/cli-tooling.adoc)
 - Support more SVG optimizations. ideas:
     - reduce the size of the embedded font by manipulating the font data to only include the letters that are really used in the svg. 
         - this would bring by far the biggest size reduction but it's tricky. 
