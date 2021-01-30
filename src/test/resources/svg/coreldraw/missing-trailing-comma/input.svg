@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="200" width="200">
+<defs>
+    <style type="text/css">
+        <![CDATA[
+    .fnt1 {font-weight:bold;font-size:30.06px;font-family:'Roboto'}
+   ]]>
+    </style>
+</defs>
+<text x="0" y="30" class="fnt1">Text text text</text>
+</svg>

@@ -216,6 +216,16 @@ class SvgFontFileEmbedderTest {
     fun `yed - ignore invalid font definition`() = processAndAssertOutputFileContent(testCaseName = "yed/ignore-invalid-font-family", expectedDetectedFonts = setOf("Roboto"), optimizeSvg = false)
 
 
+    /**
+     * Corel Draw doesn't add the last trailing comma:
+     * .fnt2 {font-family:'Roboto'}
+     * Detect the font despite this.
+     */
+    @Test
+    fun `corel draw - detect font even if the trailing comma is missing`() = processAndAssertOutputFileContent(testCaseName = "coreldraw/missing-trailing-comma", expectedDetectedFonts = setOf("Roboto"), optimizeSvg = false)
+
+
+
     private fun processAndAssertOutputFileContent(testCaseName: String, expectedDetectedFonts: Set<String>, optimizeSvg: Boolean = false) {
         val optimizeParams = if (optimizeSvg) arrayOf("--optimize") else arrayOf()
         embedder.embedFont(
