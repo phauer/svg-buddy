@@ -8,7 +8,7 @@
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <kotlin.version>1.3.72</kotlin.version>
-    <okhttp.version>4.6.0</okhttp.version>
+    <okhttp.version>4.9.2</okhttp.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
